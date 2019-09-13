@@ -1,4 +1,3 @@
-function smb_tirM_3alex_2019working_ashlee
 % Single Molecule Biophysics Lab. in Seoul National University // MJ 2019 July
 % edited by X. Feng Sep 4, 2019
 
@@ -6,11 +5,11 @@ close all;
 
 %% path and filename setting
 WorkingDirectory = pwd;
-filename_head = 'hel1';
+filename_head = 'hel2';
 
 %% Correction parameters for FRET%%
-dbackground_b=-50;
-d2background_b=0;
+dbackground_b=-46;
+d2background_b=-6;
 abackground_b=0;
 
 dbackground_g=0;
@@ -538,6 +537,9 @@ i=0;
 prev_i = -1;
 history_n = 0;
 history = zeros(1000, 1, 'int16');
+firstpoint = 1;
+lastpoint = time_length_each;
+junk=zeros(NumberofPeaks, 1);
 
 % Display traces
 
@@ -594,11 +596,13 @@ while i < NumberofPeaks
             Fret23(j) = 1;
         end
     end
+    
+    prev_i = i;
 
     % Trace window
     % green laser excitation corrected trace
     figure(hdl_trace);
-    subplot('position',[0.1 0.84 0.8 0.10]); 
+    subplot('position',[0.1 0.84 0.8 0.12]); 
     plot(time_b, DonorCorrect_b, 'g', time_b, Donor2Correct_b, 'r', time_b, AcceptorCorrect_b, 'm');
     hold on
     plot(time_b, DonorCorrect_b + Donor2Correct_b + AcceptorCorrect_b + 300, 'k');
@@ -608,101 +612,108 @@ while i < NumberofPeaks
     temp(4)=UpperLimit_b;
     grid on;
     axis(temp);
-    title(['Green Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head], 'FontSize', 8);
+    title(['Green Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
+    ylabel('Intensity');
     zoom on;
     
     % red laser excitation corrected trace
-    subplot('position',[0.1 0.68 0.8 0.10]); 
+    subplot('position',[0.1 0.68 0.8 0.12]); 
     plot(time_g, DonorCorrect_g, 'g', time_g, Donor2Correct_g, 'r', time_g, AcceptorCorrect_g, 'm');
     temp=axis;
     temp(3)=BottomLimit_g;
     temp(4)=UpperLimit_g;
     grid on;
     axis(temp);
-    title(['Red Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head], 'FontSize', 8);
+    title(['Red Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
     zoom on;
+    ylabel('Intensity');
     
     % 750 laser excitation corrected trace
-    subplot('position',[0.1 0.52 0.8 0.10]);
+    subplot('position',[0.1 0.52 0.8 0.12]);
     plot(time_g, DonorCorrect_r, 'g', time_g, Donor2Correct_r, 'r', time_g, AcceptorCorrect_r, 'm');
     temp=axis;
     temp(3)=BottomLimit_r;
     temp(4)=UpperLimit_r;
     grid on;
     axis(temp);
-    title(['750 Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head], 'FontSize', 8);
+    title(['750 Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
     zoom on;
-
-    subplot('position',[0.93 0.36 0.03 0.1]);
-    x = -0.1:0.02:1.1;
-    [hX,hN]=hist(Fret12,x);
-    barh(hN,hX,'k');
-    temp=axis;
-    temp(3)=-0.1;
-    temp(4)=1.1;
-    axis(temp);
-    title('Cy3 Cy5 FRET', 'FontSize', 8)
-    grid on;
-    axis on;
-    zoom on;
+    ylabel('Intensity');
     
-    subplot('position',[0.1 0.36 0.8 0.1]);
+    subplot('position',[0.1 0.36 0.8 0.12]);
     %	FretEc=(1./(1+gamma*(donorcorrect(i,:)./acceptorcorrect(i,:))));
-    hFretLine = plot(time_g, Fret12, FirstSelectX, FirstSelectY, LastSelectX, LastSelectY, bintime, binEcorrect, 'k');
+    hFretLine = plot(time_g(firstpoint:lastpoint), Fret12(firstpoint:lastpoint), FirstSelectX, FirstSelectY, LastSelectX, LastSelectY, bintime, binEcorrect, 'k');
     temp=axis;
     temp(3)=-0.1;
     temp(4)=1.1;
     axis(temp);
     grid on;
     zoom on;
-    %title('Cy3 Cy5 FRET')
+    title('Cy3 Cy5 FRET');
+    ylabel('FRET Efficiency');
     
-    subplot('position',[0.1 0.20 0.8 0.1]);
-    plot(time_g, Fret13, bintime, binEraw, 'k');
-    temp=axis;
-    temp(3)=-0.1;
-    temp(4)=1.1;
-    axis(temp);
-    grid on;
-    zoom on;
-    title('Cy3 Cy7 FRET', 'FontSize', 8)
-    
-    subplot('position',[0.93 0.20 0.03 0.1]);
-    x = -0.1:0.02:1.1;
-    [hX,hN]=hist(Fret13,x);
+    subplot('position',[0.93 0.36 0.03 0.12]);
+    x = -0.1:0.05:1.1;
+    [hX,hN]=hist(Fret12(firstpoint:lastpoint),x);
     barh(hN,hX,'k');
     temp=axis;
     temp(3)=-0.1;
     temp(4)=1.1;
     axis(temp);
+    xlabel('Count');
     grid on;
     axis on;
     zoom on;
-    %title('Cy3 Cy7 FRET')
     
-    subplot('position', [0.1 0.04 0.8 0.1]);
-    plot(time_g, Fret23, bintime, binEraw, 'k');
+    subplot('position',[0.1 0.20 0.8 0.12]);
+    plot(time_g(firstpoint:lastpoint), Fret13(firstpoint:lastpoint), bintime, binEraw, 'k');
+    temp=axis;
+    temp(3)=-0.1;
+    temp(4)=1.1;
+    axis(temp);
+    grid on;
+    zoom on;
+    title('Cy3 Cy7 FRET');
+    ylabel('FRET Efficiency');
+    
+    subplot('position',[0.93 0.20 0.03 0.12]);
+    x = -0.1:0.05:1.1;
+    [hX,hN]=hist(Fret13(firstpoint:lastpoint),x);
+    barh(hN,hX,'k');
+    temp=axis;
+    temp(3)=-0.1;
+    temp(4)=1.1;
+    axis(temp);
+    xlabel('Count');
+    grid on;
+    axis on;
+    zoom on;
+    
+    subplot('position', [0.1 0.04 0.8 0.12]);
+    plot(time_g(firstpoint:lastpoint), Fret23(firstpoint:lastpoint), bintime, binEraw, 'k');
     temp=axis;
     temp(3)=-0.1;
     temp(4)=1.1;
     axis(temp)
     grid on;
     zoom on;
-    title('Cy5 Cy7 FRET', 'FontSize', 8)
+    title('Cy5 Cy7 FRET');
+    ylabel('FRET Efficiency');
+    xlabel('Time (s)');
     
-    subplot('position',[0.93 0.04 0.03 0.1]);
-    x = -0.1:0.02:1.1;
-    [hX,hN]=hist(Fret23,x);
+    subplot('position',[0.93 0.04 0.03 0.12]);
+    x = -0.1:0.05:1.1;
+    [hX,hN]=hist(Fret23(firstpoint:lastpoint),x);
     barh(hN,hX,'k');
     temp=axis;
     temp(3)=-0.1;
     temp(4)=1.1;
     axis(temp);
+    xlabel('Count');
     grid on;
     axis on;
     zoom on;
-    %title('Cy5 Cy7 FRET');
-    
+
     if DoseMovieNeed == 'y'
         fileid_movie = fopen([filename_head '.' num2str(ColorNumber) 'color_3alex_movies'], 'r');
         %startpoint = uint32(4 + (i-1)*ColorNumber*peak_height) + color_order*peak_height*peaks_total_width;
@@ -761,18 +772,21 @@ while i < NumberofPeaks
     end
 
 
-    disp([num2str(i) ' (l=save select, s=save region, h=histogram select, t=terminate program, b=back, g=go)']);
+    disp([num2str(i) ' (l=save select, s=save region, h=histogram select, t=terminate program, b=back, g=go, c=choose time range for fret hist, j=count as junk)']);
     keyanswer =input('(r=calculate gamma, o=subtract background, k=calculate leakage, i=calculate direction cy7 excitation, p=collect photobleaching time, d=collect dwell times) : ','s');
     answer = sscanf(keyanswer, '%s %*s');
     numberofanswer = sscanf(keyanswer, '%*s %f');
     
-    if answer == 'o'
+    if answer == 'o' % subtract background
         
         [raw_x, ~] = ginput(2);
         x = round(raw_x / (3*timeunit));
         d1d1_bg = mean(DonorCorrect_b(x(1):x(2)));
         d1d2_bg = mean(Donor2Correct_b(x(1):x(2)));
         d1ac_bg = mean(AcceptorCorrect_b(x(1):x(2)));
+        disp(d1d1_bg);
+        disp(d1d2_bg);
+        disp(d1ac_bg);
         
         d2d1_bg = mean(DonorCorrect_g(x(1):x(2)));
         d2d2_bg = mean(Donor2Correct_g(x(1):x(2)));
@@ -800,11 +814,10 @@ while i < NumberofPeaks
         
         i = i - 1;
 
-        continue; % subtract background
-
+        continue; 
     end
         
-    if answer == 'h'
+    if answer == 'h' % histogram select
         again=1;
         [Xc,~] = ginput(1);
         firstpoint = round(Xc(1)/(2*timeunit));
@@ -854,7 +867,7 @@ while i < NumberofPeaks
         axis(temp);
         grid on;
         axis on;
-        zoom on; % histogram select
+        zoom on; 
     end
     
     if answer == 's'  % save region data
@@ -871,6 +884,20 @@ while i < NumberofPeaks
         
         output = [ Temptime_region' TempFret12_region' TempFret13_region' TempFret23_region' TempDonor_g_region' TempDonor2_g_region' TempAcceptor_g_region' TempDonor_r_region' TempDonor2_r_region' TempAcceptor_r_region'];
         save(filename_add_region_data,'output','-ascii');
+    end
+    
+    if answer == 'c'
+        [Xc, ~, ~] = ginput(2);
+        firstpoint = round(Xc(1)/(3*timeunit));
+        lastpoint = round(Xc(2)/(3*timeunit));
+        disp(firstpoint);
+        disp(lastpoint);
+        i = i - 1;
+        continue;
+    end
+    
+    if answer == 'j'
+        junk(i) = 1;
     end
     
     if answer == 'l' % save select
@@ -983,37 +1010,48 @@ while i < NumberofPeaks
         disp('Left/middle/right click for different states.');
         [time,~,button]=ginput;
         
-        time1=time(button==1);
-        for c=1:2:(sum(button==1)-1)
-            t1=ceil(time1(c)/timeunit);
-            t2=ceil(time1(c+1)/timeunit);
-            DT1(end+1)=abs(time1(c+1)-time1(c));
-            DT1a(end+1)=mean(AcceptorCorrect_g(t1:t2));
-            DT1d(end+1)=mean(Donor2Correct_g(t1:t2));
-            DT1f(end+1)=mean(Fret23(t1:t2));
+        % left button for saving cy5-cy7 FRET trace
+        time1 = time(button == 1);
+        for c = 1:2:(sum(button == 1) - 1)
+            t1 = ceil(time1(c) / (3 * timeunit));
+            t2 = ceil(time1(c+1) / (3 * timeunit));
+            dt1 = abs(time1(c+1) - time1(c));
+            fprintf('dt1 = %.2f s\n', dt1);
+            DT1(end+1) = dt1;
+            DT1a(end+1) = mean(AcceptorCorrect_g(t1:t2));
+            DT1d(end+1) = mean(Donor2Correct_g(t1:t2));
+            DT1f(end+1) = mean(Fret23(t1:t2));
         end
-%         time2=time(button==2);
-%         for c=1:2:sum(button==2)-1
-%             t1=ceil(time2(c)/timeunit);
-%             t2=ceil(time2(c+1)/timeunit);
-%             DT2(end+1)=abs(time2(c+1)-time2(c));
-%             DT2a(end+1)=mean(Acceptors(TracesCounter,t1:t2));
-%             DT2d(end+1)=mean(Donors(TracesCounter,t1:t2));
-%             DT2f(end+1)=mean(FRET_Time_Series(t1:t2));
-%         end
-        time3=time(button==3);
-        for c=1:2:sum(button==3)-1
-            t1=ceil(time3(c)/timeunit);
-            t2=ceil(time3(c+1)/timeunit);
-            DT3(end+1)=abs(time3(c+1)-time3(c));
-            DT3a(end+1)=mean(Donor2Correct_b(t1:t2));
-            DT3d(end+1)=mean(DonorCorrect_b(t1:t2));
-            DT3f(end+1)=mean(Fret12(t1:t2));
+        
+        % left button for saving cy5-cy7 FRET trace
+        time2 = time(button == 2);
+        for c = 1:2:(sum(button == 2) - 1)
+            t1 = ceil(time2(c) / (3 * timeunit));
+            t2 = ceil(time2(c+1) / (3 * timeunit));
+            dt2 = abs(time2(c+1) - time2(c));
+            fprintf('dt2 = %.2f s\n', dt2);
+            DT2(end+1) = dt2;
+            DT2a(end+1) = mean(AcceptorCorrect_g(t1:t2));
+            DT2d(end+1) = mean(Donor2Correct_g(t1:t2));
+            DT2f(end+1) = mean(Fret23(t1:t2));
+        end
+        
+        % right button for saving cy3-cy5 FRET trace
+        time3 = time(button == 3);
+        for c = 1:2:sum(button == 3) - 1
+            t1 = ceil(time3(c) / (3 * timeunit));
+            t2 = ceil(time3(c+1) / (3 * timeunit));
+            dt3 = abs(time3(c+1) - time3(c));
+            fprintf('dt3 = %.2f s\n', dt3);
+            DT3(end+1) = dt3;
+            DT3a(end+1) = mean(Donor2Correct_b(t1:t2));
+            DT3d(end+1) = mean(DonorCorrect_b(t1:t2));
+            DT3f(end+1) = mean(Fret12(t1:t2));
         end
     end
     
     if answer == 'b' % go back
-        i = i - 1;
+        i = i - 2;
     end
 
     if answer == 'g'
@@ -1029,6 +1067,9 @@ while i < NumberofPeaks
         cd(OriginalDirectory);
         break; % terminate and exit
     end
+    
+    firstpoint = 1;
+    lastpoint = time_length_each;
 end
 
 %%save region datas
@@ -1079,21 +1120,20 @@ fprintf('Saving dwell time data if there is any...\n');
 
 if ~isempty(DT1)
     DT1=[DT1;DT1a;DT1d;DT1f]';
-    fname1=[Directory_of_TracesFiles '/' newfolder  '/dwelltime1.dat'];
+    fname1=[filename_head  '_dwelltime4.dat'];
     save(fname1,'DT1','-ascii','-append');
 end
 if ~isempty(DT2)
     DT2=[DT2;DT2a;DT2d;DT2f]';
-    fname1=[Directory_of_TracesFiles '/' newfolder  '/dwelltime2.dat'];
+    fname1=[filename_head  '_dwelltime2.dat'];
     save(fname1,'DT2','-ascii','-append');
 end
 if ~isempty(DT3)
     DT3=[DT3;DT3a;DT3d;DT3f]';
-    fname1=[Directory_of_TracesFiles '/' newfolder  '/dwelltime3.dat'];
+    fname1=[filename_head  '_dwelltime5.dat'];
     save(fname1,'DT3','-ascii','-append');
 end
 
 fprintf('Done.\n');
 
 close all;
-end

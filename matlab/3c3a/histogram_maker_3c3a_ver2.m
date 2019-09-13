@@ -315,7 +315,7 @@ xlim([-0.2 1.2]);
 title('Cy3 Cy5 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
-%saveas(f1, 'Cy3 Cy5 FRET.png')
+saveas(f1, 'Cy3 Cy5 FRET.png')
 
 % Cy5-Cy7 FRET histogram
 
@@ -325,7 +325,7 @@ xlim([-0.2 1.2]);
 title('Cy5 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
-%saveas(f2, 'Cy5 Cy7 FRET.png')
+saveas(f2, 'Cy5 Cy7 FRET.png')
 
 f3 = figure;
 histogram(fret02(molec_with_cy3 & molec_with_cy7 & (~molec_with_cy5)), 'BinWidth', 0.1);
@@ -333,9 +333,9 @@ xlim([-0.2 1.2]);
 title('Cy3 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
-%saveas(f3, 'Cy3 Cy7 FRET.png')
+saveas(f3, 'Cy3 Cy7 FRET.png')
 
 to_save01 = fret01(~isnan(fret01));
 to_save12 = fret12(~isnan(fret12));
-%csvwrite('Cy3Cy5_fret_values.csv', to_save01);
-%csvwrite('Cy5Cy7_fret_values.csv', to_save12);
+csvwrite('Cy3Cy5_fret_values.csv', to_save01);
+csvwrite('Cy5Cy7_fret_values.csv', to_save12);
