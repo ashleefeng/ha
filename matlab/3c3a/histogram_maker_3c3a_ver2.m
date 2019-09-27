@@ -239,10 +239,10 @@ hist(AcceptorCorrect_2(:,1),80);
 title('750 laser, Cy7 Em');
 [cy7_x, cy7_y] = ginput(2);
 
-subplot(4,1,4);
-hist(AvAcceptorRawData_0(:,1),80);
-title('Green laser, Cy7 Em');
-[cy37fret_x, cy37fret_y] = ginput(2);
+% subplot(4,1,4);
+% hist(AvAcceptorRawData_0(:,1),80);
+% title('Green laser, Cy7 Em');
+% [cy37fret_x, cy37fret_y] = ginput(2);
 
 % filter for spots of interest
 molec_with_cy3 = false(N_mol, 1);
@@ -267,16 +267,16 @@ for i = 1:N_mol
         molec_with_cy7(i) = true;
     end
     
-    if AvAcceptorRawData_0(i, 1) > cy37fret_x(1) && AvAcceptorRawData_0(i, 1) < cy37fret_x(2)
-        molec_with_cy3cy7fret(i) = true;
-    end
+%     if AvAcceptorRawData_0(i, 1) > cy37fret_x(1) && AvAcceptorRawData_0(i, 1) < cy37fret_x(2)
+%         molec_with_cy3cy7fret(i) = true;
+%     end
 end
 
 fprintf('Colocalized Cy3 and Cy5 count per image: %.2f\n', ...
     sum(molec_with_cy3 & molec_with_cy5) / n_regions);
 
-fprintf('Colocalized Cy3-Cy7 FRET and Cy7 fraction: %.2f\n', ...
-    sum(molec_with_cy7 & molec_with_cy3cy7fret) / sum(molec_with_cy7));
+% fprintf('Colocalized Cy3-Cy7 FRET and Cy7 fraction: %.2f\n', ...
+%     sum(molec_with_cy7 & molec_with_cy3cy7fret) / sum(molec_with_cy7));
 
 % find Cy3/(Cy3 + Cy5) for each region, then average
 
@@ -310,32 +310,40 @@ fprintf('average #(Cy3 and Cy5) / #Cy5 = %.3f +/- %.3f\n', ...
     mean(nCy3andCy5_over_Cy5), std(nCy3andCy5_over_Cy5));
 
 f1 = figure;
-histogram(fret01(molec_with_cy3 & molec_with_cy5));
+histogram(fret01(molec_with_cy3 & molec_with_cy5), 'BinWidth', 0.025);
 xlim([-0.2 1.2]);
+%ylim([0 600]);
 title('Cy3 Cy5 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
-saveas(f1, 'Cy3 Cy5 FRET.png')
+set(gca,'FontSize',20);
+%saveas(f1, 'Cy3 Cy5 FRET ver2.png')
 
 % Cy5-Cy7 FRET histogram
 
 f2 = figure;
-histogram(fret12(molec_with_cy5 & molec_with_cy7));
+histogram(fret12(molec_with_cy5 & molec_with_cy7), 'BinWidth', 0.025);
 xlim([-0.2 1.2]);
 title('Cy5 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
-saveas(f2, 'Cy5 Cy7 FRET.png')
+set(gca,'FontSize',20);
+%saveas(f2, 'Cy5 Cy7 FRET ver2.png')
 
 f3 = figure;
-histogram(fret02(molec_with_cy3 & molec_with_cy7 & (~molec_with_cy5)), 'BinWidth', 0.1);
+histogram(fret02(molec_with_cy3 & molec_with_cy7 & (~molec_with_cy5)), 'BinWidth', 0.04);
+%histogram(fret02(molec_with_cy3 & molec_with_cy7), 'BinWidth', 0.025);
 xlim([-0.2 1.2]);
 title('Cy3 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
-saveas(f3, 'Cy3 Cy7 FRET.png')
+set(gca,'FontSize',20);
+%saveas(f3, 'Cy3 Cy7 FRET ver2.png')
 
-to_save01 = fret01(~isnan(fret01));
-to_save12 = fret12(~isnan(fret12));
-csvwrite('Cy3Cy5_fret_values.csv', to_save01);
-csvwrite('Cy5Cy7_fret_values.csv', to_save12);
+to_save01 = fret01(molec_with_cy3 & molec_with_cy5);
+to_save12 = fret12(molec_with_cy5 & molec_with_cy7);
+to_save02 = fret02(molec_with_cy3 & molec_with_cy7);
+to_save02_ver2 = fret02(molec_with_cy3 & molec_with_cy7 & (~molec_with_cy5));
+%csvwrite('Cy3Cy5_fret_values_ver2.csv', to_save01);
+%csvwrite('Cy5Cy7_fret_values_ver2.csv', to_save12);
+%csvwrite('Cy3Cy7_fret_values_ver2.csv', to_save02_ver2);

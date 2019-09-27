@@ -5,11 +5,11 @@ close all;
 
 %% path and filename setting
 WorkingDirectory = pwd;
-filename_head = 'hel2';
+filename_head = 'hel1';
 
 %% Correction parameters for FRET%%
-dbackground_b=-46;
-d2background_b=-6;
+dbackground_b=0;
+d2background_b=0;
 abackground_b=0;
 
 dbackground_g=0;
