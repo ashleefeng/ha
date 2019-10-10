@@ -1,4 +1,4 @@
-values = csvread('Cy5Cy7_fret_values_ver2.csv');
+values = csvread('Cy3Cy5_fret_values_ver2.csv');
 
 [hist_values, edges] = histcounts(values, 'BinWidth', 0.025);
 

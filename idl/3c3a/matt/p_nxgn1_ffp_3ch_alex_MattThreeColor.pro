@@ -237,14 +237,14 @@ Q2 = fltarr(4,4)
 foo = float(1)
 
 print, ""
-openr, 1, "Z:\Ashlee\190826_kNuc_Cy3ZB_repeat\beads\hel1_35.map" ;
+openr, 1, "Z:\Ashlee\190924_iNuc_flow\beads\hel1_35.map" ;
 
 readf, 1, P
 readf, 1, Q
 close, 1
 
 print, ""
-openr, 1, "Z:\Ashlee\190826_kNuc_Cy3ZB_repeat\beads\hel1_37.map" ;
+openr, 1, "Z:\Ashlee\190924_iNuc_flow\beads\hel1_37.map" ;
 
 readf, 1, P2
 readf, 1, Q2

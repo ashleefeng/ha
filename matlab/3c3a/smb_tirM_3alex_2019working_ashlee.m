@@ -29,7 +29,7 @@ gamma12=0.8730;  %1
 gamma23 = 2.62;
 gamma13=gamma12*gamma23;
 
-direct = 0; %ashlee: 0.1578;
+direct = 0.1578; %ashlee: 0.1578;
 
 %% Options
 LaserOrderChange = 'y'; %Check this part when excitation laser order is matched.
@@ -45,11 +45,11 @@ LastNumber = 10;        % histogram options
 
 %% Trace axis range
 BottomLimit_b=-100;
-UpperLimit_b=1500;
-BottomLimit_g=-100;
-UpperLimit_g=1500;
+UpperLimit_b=1000;
+BottomLimit_g=-300;
+UpperLimit_g=1000;
 BottomLimit_r=-100;
-UpperLimit_r=1500;
+UpperLimit_r=1000;
 
 %% log file loading (time unit etc. Ha lab ver.)
 
@@ -524,6 +524,7 @@ DT1=[];DT2=[];DT3=[];
 DT1a=[];DT2a=[];DT3a=[];
 DT1d=[];DT2d=[];DT3d=[];
 DT1f=[];DT2f=[];DT3f=[];
+DT1id = []; DT2id = []; DT3id = [];
 FirstSelectX=[];
 FirstSelectY=[];
 LastSelectX=[];
@@ -602,7 +603,7 @@ while i < NumberofPeaks
     % Trace window
     % green laser excitation corrected trace
     figure(hdl_trace);
-    subplot('position',[0.1 0.84 0.8 0.12]); 
+    subplot('position',[0.1 0.84 0.8 0.1]); 
     plot(time_b, DonorCorrect_b, 'g', time_b, Donor2Correct_b, 'r', time_b, AcceptorCorrect_b, 'm');
     hold on
     plot(time_b, DonorCorrect_b + Donor2Correct_b + AcceptorCorrect_b + 300, 'k');
@@ -615,9 +616,10 @@ while i < NumberofPeaks
     title(['Green Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
     ylabel('Intensity');
     zoom on;
+    set(gca, 'FontSize', 12);
     
     % red laser excitation corrected trace
-    subplot('position',[0.1 0.68 0.8 0.12]); 
+    subplot('position',[0.1 0.68 0.8 0.1]); 
     plot(time_g, DonorCorrect_g, 'g', time_g, Donor2Correct_g, 'r', time_g, AcceptorCorrect_g, 'm');
     temp=axis;
     temp(3)=BottomLimit_g;
@@ -627,9 +629,10 @@ while i < NumberofPeaks
     title(['Red Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
     zoom on;
     ylabel('Intensity');
+    set(gca, 'FontSize', 12);
     
     % 750 laser excitation corrected trace
-    subplot('position',[0.1 0.52 0.8 0.12]);
+    subplot('position',[0.1 0.52 0.8 0.1]);
     plot(time_g, DonorCorrect_r, 'g', time_g, Donor2Correct_r, 'r', time_g, AcceptorCorrect_r, 'm');
     temp=axis;
     temp(3)=BottomLimit_r;
@@ -639,8 +642,9 @@ while i < NumberofPeaks
     title(['750 Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
     zoom on;
     ylabel('Intensity');
+    set(gca, 'FontSize', 12);
     
-    subplot('position',[0.1 0.36 0.8 0.12]);
+    subplot('position',[0.1 0.36 0.8 0.1]);
     %	FretEc=(1./(1+gamma*(donorcorrect(i,:)./acceptorcorrect(i,:))));
     hFretLine = plot(time_g(firstpoint:lastpoint), Fret12(firstpoint:lastpoint), FirstSelectX, FirstSelectY, LastSelectX, LastSelectY, bintime, binEcorrect, 'k');
     temp=axis;
@@ -650,9 +654,10 @@ while i < NumberofPeaks
     grid on;
     zoom on;
     title('Cy3 Cy5 FRET');
-    ylabel('FRET Efficiency');
+    ylabel('FRET');
+    set(gca, 'FontSize', 12);
     
-    subplot('position',[0.93 0.36 0.03 0.12]);
+    subplot('position',[0.93 0.36 0.03 0.1]);
     x = -0.1:0.05:1.1;
     [hX,hN]=hist(Fret12(firstpoint:lastpoint),x);
     barh(hN,hX,'k');
@@ -665,7 +670,7 @@ while i < NumberofPeaks
     axis on;
     zoom on;
     
-    subplot('position',[0.1 0.20 0.8 0.12]);
+    subplot('position',[0.1 0.20 0.8 0.1]);
     plot(time_g(firstpoint:lastpoint), Fret13(firstpoint:lastpoint), bintime, binEraw, 'k');
     temp=axis;
     temp(3)=-0.1;
@@ -674,9 +679,10 @@ while i < NumberofPeaks
     grid on;
     zoom on;
     title('Cy3 Cy7 FRET');
-    ylabel('FRET Efficiency');
+    ylabel('FRET');
+    set(gca, 'FontSize', 12);
     
-    subplot('position',[0.93 0.20 0.03 0.12]);
+    subplot('position',[0.93 0.20 0.03 0.1]);
     x = -0.1:0.05:1.1;
     [hX,hN]=hist(Fret13(firstpoint:lastpoint),x);
     barh(hN,hX,'k');
@@ -689,7 +695,7 @@ while i < NumberofPeaks
     axis on;
     zoom on;
     
-    subplot('position', [0.1 0.04 0.8 0.12]);
+    subplot('position', [0.1 0.04 0.8 0.1]);
     plot(time_g(firstpoint:lastpoint), Fret23(firstpoint:lastpoint), bintime, binEraw, 'k');
     temp=axis;
     temp(3)=-0.1;
@@ -698,10 +704,11 @@ while i < NumberofPeaks
     grid on;
     zoom on;
     title('Cy5 Cy7 FRET');
-    ylabel('FRET Efficiency');
+    ylabel('FRET');
     xlabel('Time (s)');
+    set(gca, 'FontSize', 12);
     
-    subplot('position',[0.93 0.04 0.03 0.12]);
+    subplot('position',[0.93 0.04 0.03 0.1]);
     x = -0.1:0.05:1.1;
     [hX,hN]=hist(Fret23(firstpoint:lastpoint),x);
     barh(hN,hX,'k');
@@ -773,7 +780,7 @@ while i < NumberofPeaks
 
 
     disp([num2str(i) ' (l=save select, s=save region, h=histogram select, t=terminate program, b=back, g=go, c=choose time range for fret hist, j=count as junk)']);
-    keyanswer =input('(r=calculate gamma, o=subtract background, k=calculate leakage, i=calculate direction cy7 excitation, p=collect photobleaching time, d=collect dwell times) : ','s');
+    keyanswer =input('(r=calculate gamma, o=subtract background, k=calculate leakage, i=calculate direction cy7 excitation, p=collect photobleaching time, d=collect dwell times, n=subtract background for green excitation only) : ','s');
     answer = sscanf(keyanswer, '%s %*s');
     numberofanswer = sscanf(keyanswer, '%*s %f');
     
@@ -816,7 +823,30 @@ while i < NumberofPeaks
 
         continue; 
     end
+    
+    if answer == 'n' % subtract background for green excitation only
         
+        [raw_x, ~] = ginput(2);
+        x = round(raw_x / (3*timeunit));
+        d1d1_bg = mean(DonorCorrect_b(x(1):x(2)));
+        d1d2_bg = mean(Donor2Correct_b(x(1):x(2)));
+        d1ac_bg = mean(AcceptorCorrect_b(x(1):x(2)));
+        disp(d1d1_bg);
+        disp(d1d2_bg);
+        disp(d1ac_bg);
+        
+        DonorCorrect_b = DonorCorrect_b - d1d1_bg;
+        Donor2Correct_b = Donor2Correct_b - d1d2_bg;
+        AcceptorCorrect_b = AcceptorCorrect_b - d1ac_bg;
+
+        Fret12 = Donor2Correct_b./((1-Fret23).*DonorCorrect_b + Donor2Correct_b);
+        Fret13 = (AcceptorCorrect_b - Fret23.*(Donor2Correct_b + AcceptorCorrect_b))./(DonorCorrect_b + AcceptorCorrect_b - Fret23 .* (EachTotalCorrect_b));
+        
+        i = i - 1;
+
+        continue; 
+    end
+    
     if answer == 'h' % histogram select
         again=1;
         [Xc,~] = ginput(1);
@@ -1021,6 +1051,7 @@ while i < NumberofPeaks
             DT1a(end+1) = mean(AcceptorCorrect_g(t1:t2));
             DT1d(end+1) = mean(Donor2Correct_g(t1:t2));
             DT1f(end+1) = mean(Fret23(t1:t2));
+            DT1id(end+1) = i;
         end
         
         % left button for saving cy5-cy7 FRET trace
@@ -1034,6 +1065,7 @@ while i < NumberofPeaks
             DT2a(end+1) = mean(AcceptorCorrect_g(t1:t2));
             DT2d(end+1) = mean(Donor2Correct_g(t1:t2));
             DT2f(end+1) = mean(Fret23(t1:t2));
+            DT2id(end+1) = i;
         end
         
         % right button for saving cy3-cy5 FRET trace
@@ -1047,6 +1079,7 @@ while i < NumberofPeaks
             DT3a(end+1) = mean(Donor2Correct_b(t1:t2));
             DT3d(end+1) = mean(DonorCorrect_b(t1:t2));
             DT3f(end+1) = mean(Fret12(t1:t2));
+            DT3id(end+1) = i;
         end
     end
     
@@ -1119,18 +1152,18 @@ end
 fprintf('Saving dwell time data if there is any...\n');
 
 if ~isempty(DT1)
-    DT1=[DT1;DT1a;DT1d;DT1f]';
-    fname1=[filename_head  '_dwelltime4.dat'];
+    DT1=[DT1id;DT1;DT1a;DT1d;DT1f]';
+    fname1=[filename_head  '_dwelltime1_effective_unwrapping.dat'];
     save(fname1,'DT1','-ascii','-append');
 end
 if ~isempty(DT2)
-    DT2=[DT2;DT2a;DT2d;DT2f]';
-    fname1=[filename_head  '_dwelltime2.dat'];
+    DT2=[DT2id;DT2;DT2a;DT2d;DT2f]';
+    fname1=[filename_head  '_dwelltime2_futile_unwrapping.dat'];
     save(fname1,'DT2','-ascii','-append');
 end
 if ~isempty(DT3)
-    DT3=[DT3;DT3a;DT3d;DT3f]';
-    fname1=[filename_head  '_dwelltime5.dat'];
+    DT3=[DT3id;DT3;DT3a;DT3d;DT3f]';
+    fname1=[filename_head  '_dwelltime3_high_cy3.dat'];
     save(fname1,'DT3','-ascii','-append');
 end
 

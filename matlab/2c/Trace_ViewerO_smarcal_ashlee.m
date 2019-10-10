@@ -1,5 +1,6 @@
 % Written by Digvijay Singh  ( dgvjay@illinois.edu)
 % Edited by Olivia Yang (oyang1@jhu.edu) and Ashlee Feng (xfeng17@jhu.edu)
+% Last updated Oct 10, 2019
 
 close all
 fclose('all');
@@ -143,7 +144,6 @@ while TracesCounter < num_traces/2
     xlabel('Time(s)');
     ylabel('Intensity (a.u.)');
     xlim([0 Length_of_the_TimeTraces * Timeunit]);
-    %plot(TimeSeries,Acceptors(TracesCounter,:)+Donors(TracesCounter,:),'k');
     TitleNameForThePlot=sprintf('Molecule %d / %d of %s',TracesCounter,num_traces/2,TheFileThatWillbeAnalysed);
     title(TitleNameForThePlot);
     
@@ -288,9 +288,7 @@ while TracesCounter < num_traces/2
         while true
             disp('    Click for beginning and end of states.');disp('    Left/middle/right click for different states.');
             [time,y,button]=ginput;
-            
-            % for testing
-            
+                        
             seld=size(time);
             hold on
             plot(time, y, 'x', 'Color', 'b');
@@ -299,12 +297,14 @@ while TracesCounter < num_traces/2
                 plot(time, y, 'x', 'Color', 'w');
                 continue
             end
-            hold off
             
-            %         if mod(seld(1),2)
-            %             disp('Missing one end! Please go back one molecule to select again');
-            %             continue;
-            %         else
+            if mod(seld(1),2)
+                disp('You clicked an odd number of times! Please select again');
+                plot(time, y, 'x', 'Color', 'w');
+                continue;
+            end
+            
+            hold off
             
             % modified to analyze photobleaching rate
             
@@ -418,13 +418,13 @@ while TracesCounter < num_traces/2
     
 end
 
-fprintf('counter = %d\n', counter);
+%fprintf('counter = %d\n', counter);
 
 % analyze photobleaching step counts
-instr = input('Do you want to analyze photobleaching steps? (Y/N, default N)\n', 's');
+instr = input('Do you want to analyze photobleaching steps? (Y/N, default Y)\n', 's');
 
 if isempty(instr)
-    instr = 'N';
+    instr = 'Y';
 end
 
 if strcmp(instr, 'Y') == 1

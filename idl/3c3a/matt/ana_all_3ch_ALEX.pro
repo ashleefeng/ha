@@ -5,7 +5,7 @@
 ;
 ; get directory to analyze from user
 
-dir = ""
+dir = "Z:\Ashlee\190924_iNuc_flow\7_flow_10nM_SWR1_20nM_newZB\"
 run = "asdf"
 
 print, "name of directories to analyze"
