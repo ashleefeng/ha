@@ -3,9 +3,9 @@ pro smb_analyze_all_3alex
 
 	; Custumizing parameters
 	windows_close = 'no'
-	path = 'E:\Ashlee\190827_kNuc_Chz1_test\4_10nM_Cy3ZB-SWR1_1mM_ATP\ssDNA_40min_long\'
+	path = 'Z:\MattP\2019.10.24jz\ch1flowexpt\rxn\longmovie\intial\'
 	;path = 'W:\PFV_IN\3_10'
-	mapfile = 'E:\Ashlee\190826_kNuc_Cy3ZB_repeat\beads\rough.map'
+	mapfile = 'Z:\MattP\2019.10.24jz\beads\3color\rough.map'
 	color_number = 3		; 2 or 3 color
 	answer_need_mapping = "No"
 	answer_need_movie = "No"

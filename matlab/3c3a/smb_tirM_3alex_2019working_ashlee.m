@@ -1167,6 +1167,14 @@ if ~isempty(DT3)
     save(fname1,'DT3','-ascii','-append');
 end
 
+% saving junk calls
+
+if sum(junk) > 1
+   fname_junk = [filename_head '_junk_traces.dat'];
+   junk_calls = [(1:NumberofPeaks)' junk];
+   save(fname_junk, 'junk_calls', '-ascii');
+end
+
 fprintf('Done.\n');
 
 close all;

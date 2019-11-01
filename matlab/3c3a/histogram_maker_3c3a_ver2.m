@@ -43,9 +43,9 @@ disp(pth);
 FolderDir=dir;
 [nf,dumn]=size(FolderDir);
 
-timeunit=input('time unit [default=0.1 sec]  ');
+timeunit=input('time unit [default=0.2 sec]  ');
 if isempty(timeunit)
-    timeunit=0.1;
+    timeunit=0.2;
 end
 
 raw = [];
@@ -305,8 +305,6 @@ for regionID = 1:n_regions
     nCy3andCy5_over_Cy5(regionID) = nCy3andCy5 / nCy5;
 end
 
-
-
 % fprintf('average #Cy3 / #(Cy3 or Cy5) = %.3f +/- %.3f\n', ...
 %     mean(nCy3_over_nCy3orCy5), std(nCy3_over_nCy3orCy5));
 
@@ -323,7 +321,7 @@ title('Cy3 Cy5 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
 set(gca,'FontSize',20);
-saveas(f1, 'Cy3 Cy5 FRET ver2.png')
+%saveas(f1, 'Cy3 Cy5 FRET ver2.png')
 
 % Cy5-Cy7 FRET histogram
 
@@ -334,7 +332,18 @@ title('Cy5 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
 set(gca,'FontSize',20);
-saveas(f2, 'Cy5 Cy7 FRET ver2.png')
+%saveas(f2, 'Cy5 Cy7 FRET ver2.png')
+
+% Cy5-Cy7 FRET histogram for spots with Cy3 intensity
+
+f2 = figure;
+histogram(fret12(molec_with_cy5 & molec_with_cy7 & molec_with_cy3), 'BinWidth', 0.025);
+xlim([-0.2 1.2]);
+title('Cy5 Cy7 FRET');
+xlabel('FRET Efficiency');
+ylabel('Count');
+set(gca,'FontSize',20);
+saveas(f2, 'Cy5 Cy7 FRET ver2 filtered for Cy3.png')
 
 f3 = figure;
 histogram(fret02(molec_with_cy3 & molec_with_cy7 & (~molec_with_cy5)), 'BinWidth', 0.04);
@@ -344,12 +353,14 @@ title('Cy3 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
 set(gca,'FontSize',20);
-saveas(f3, 'Cy3 Cy7 FRET ver2.png')
+%saveas(f3, 'Cy3 Cy7 FRET ver2.png')
 
 to_save01 = fret01(molec_with_cy3 & molec_with_cy5);
 to_save12 = fret12(molec_with_cy5 & molec_with_cy7);
+to_save12_ver2 = fret12(molec_with_cy5 & molec_with_cy7 & molec_with_cy3);
 to_save02 = fret02(molec_with_cy3 & molec_with_cy7);
 to_save02_ver2 = fret02(molec_with_cy3 & molec_with_cy7 & (~molec_with_cy5));
-csvwrite('Cy3Cy5_fret_values_ver2.csv', to_save01);
-csvwrite('Cy5Cy7_fret_values_ver2.csv', to_save12);
-csvwrite('Cy3Cy7_fret_values_ver2.csv', to_save02_ver2);
+%csvwrite('Cy3Cy5_fret_values_ver2.csv', to_save01);
+%csvwrite('Cy5Cy7_fret_values_ver2.csv', to_save12);
+%csvwrite('Cy3Cy7_fret_values_ver2.csv', to_save02_ver2);
+csvwrite('Cy5Cy7_fret_values_ver2_filtered_for_cy3.csv', to_save12_ver2);
