@@ -1153,17 +1153,17 @@ fprintf('Saving dwell time data if there is any...\n');
 
 if ~isempty(DT1)
     DT1=[DT1id;DT1;DT1a;DT1d;DT1f]';
-    fname1=[filename_head  '_dwelltime1_effective_unwrapping.dat'];
+    fname1=[filename_head  '_dwelltime1_effective_unwrapping_fret.dat'];
     save(fname1,'DT1','-ascii','-append');
 end
 if ~isempty(DT2)
     DT2=[DT2id;DT2;DT2a;DT2d;DT2f]';
-    fname1=[filename_head  '_dwelltime2_futile_unwrapping.dat'];
+    fname1=[filename_head  '_dwelltime2_futile_unwrapping_fret.dat'];
     save(fname1,'DT2','-ascii','-append');
 end
 if ~isempty(DT3)
     DT3=[DT3id;DT3;DT3a;DT3d;DT3f]';
-    fname1=[filename_head  '_dwelltime3_high_cy3.dat'];
+    fname1=[filename_head  '_dwelltime3_high_cy3_fret.dat'];
     save(fname1,'DT3','-ascii','-append');
 end
 

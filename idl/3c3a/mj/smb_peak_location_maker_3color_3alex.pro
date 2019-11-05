@@ -26,12 +26,12 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	frame3_ratio_first = 0
 
 	frame1_ratio_second = 0
-  frame2_ratio_second = 1
-  frame3_ratio_second = 0
+    frame2_ratio_second = 1
+    frame3_ratio_second = 0
 
-  frame1_ratio_third = 0
-  frame2_ratio_third = 0
-  frame3_ratio_third = 1
+    frame1_ratio_third = 0
+    frame2_ratio_third = 0
+    frame3_ratio_third = 1
 	;Program start
 
 	loadct, 5
@@ -133,15 +133,15 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	HELP, POS
 
 	for j = film_time_start, film_time_end - 1 do begin
-	  readu, 1, frame
-	  frame_average_first = temporary(frame_average_first) + frame
+	    readu, 1, frame
+	    frame_average_first = temporary(frame_average_first) + frame
 		readu, 1, frame
 		frame_average_second = temporary(frame_average_second) + frame
 		readu, 1, frame
 		frame_average_third = temporary(frame_average_third) + frame
 	endfor
 
-  frame_average_first = temporary(frame_average_first)/float(film_time_end - film_time_start)
+    frame_average_first = temporary(frame_average_first)/float(film_time_end - film_time_start)
 	frame_average_second = temporary(frame_average_second)/float(film_time_end - film_time_start)
 	frame_average_third = temporary(frame_average_third)/float(film_time_end - film_time_start)
 	;frame_average_first = frame_average_second
@@ -152,7 +152,7 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	;; 만약 Blue&Green이라면 첫번째 laser가 더 신호가 크고, Red&Blue인 경우 두번째 laser에서의 신호가 더 클 것이다
 
 	color_check_first = mean(frame_average_first((film_width*(check_ch-1)/3):(film_width*(check_ch)/3-1),0:(film_height-1)))
-  color_check_second = mean(frame_average_second((film_width*(check_ch-1)/3):(film_width*(check_ch)/3-1),0:(film_height-1)))
+    color_check_second = mean(frame_average_second((film_width*(check_ch-1)/3):(film_width*(check_ch)/3-1),0:(film_height-1)))
 ;	color_check_third = mean(frame_average_third((film_width*(check_ch-1)/3):(film_width*(check_ch)/3-1),0:(film_height-1)))
 
 ;	color_check_first = mean(frame_average_first(0:(film_width/3-1),0:(film_height-1)))
@@ -167,18 +167,18 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	if color_check_first gt color_check_second then begin  ;; Blue & Green
 	  color_change_check = 'n'
 	endif else begin ;; Red & Blue
-    color_change_check = 'y'
-    frame = frame_average_first
-    frame_average_first = frame_average_second
-    frame_average_second = frame_average_third
-    frame_average_third = frame
-  endelse
+      color_change_check = 'y'
+      frame = frame_average_first
+      frame_average_first = frame_average_second
+      frame_average_second = frame_average_third
+      frame_average_third = frame
+    endelse
 
 	WIDGET_CONTROL, text_ID, SET_VALUE=("Color change? : " + color_change_check), /APPEND, /SHOW
 
 	frame = byte(frame_average_first)
-  window, 0, xsize = film_width, ysize = film_height, title = 'frame_average_first'
-  tv, frame
+    window, 0, xsize = film_width, ysize = film_height, title = 'frame_average_first'
+    tv, frame
 
 	frame = byte(frame_average_second)
 	window, 1, xsize = film_width, ysize = film_height, title = 'frame_average_second'
@@ -189,14 +189,14 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	tv, frame
 
 	if FILE_TEST(run + "_ave_first.tif") eq 0 then begin       ; _ave.tif file doesn't exist.
-    WRITE_TIFF, run + "_ave_first.tif", frame_average_first, 1, RED = R_ORIG, GREEN = G_ORIG, BLUE = B_ORIG, compression = 2
-  endif
+      WRITE_TIFF, run + "_ave_first.tif", frame_average_first, 1, RED = R_ORIG, GREEN = G_ORIG, BLUE = B_ORIG, compression = 2
+    endif
 	if FILE_TEST(run + "_ave_second.tif") eq 0 then begin				; _ave.tif file doesn't exist.
 		WRITE_TIFF, run + "_ave_second.tif", frame_average_second, 1, RED = R_ORIG, GREEN = G_ORIG, BLUE = B_ORIG, compression = 2
 	endif
 	if FILE_TEST(run + "_ave_third.tif") eq 0 then begin        ; _ave.tif file doesn't exist.
-    WRITE_TIFF, run + "_ave_third.tif", frame_average_third, 1, RED = R_ORIG, GREEN = G_ORIG, BLUE = B_ORIG, compression = 2
-  endif
+      WRITE_TIFF, run + "_ave_third.tif", frame_average_third, 1, RED = R_ORIG, GREEN = G_ORIG, BLUE = B_ORIG, compression = 2
+    endif
 
 
 ; subtracts background
@@ -231,11 +231,11 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 
 	close, 1
 
-  temp_first = temporary(temp_first)/float(film_time_end - film_time_start)
+    temp_first = temporary(temp_first)/float(film_time_end - film_time_start)
 	temp_second = temporary(temp_second)/float(film_time_end - film_time_start)
-  temp_third = temporary(temp_third)/float(film_time_end - film_time_start) ;frame_average_third
+    temp_third = temporary(temp_third)/float(film_time_end - film_time_start) ;frame_average_third
 
-  ;temp_first = temp_second
+    ;temp_first = temp_second
 	halfbinwidth = fix(binwidth/2)
 	halfbinwidth_1 = halfbinwidth - 1
 
@@ -244,12 +244,12 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	minimum_intensity_matrix_third = fltarr(film_width/binwidth, film_height/binwidth, /NOZERO)
 
 	window, 3, TITLE = 'Histogram of first average image'
-  hist = histogram(temp_first, MIN=0, MAX=80, NBINS=100)
-  PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'first Average Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
-  dummy=max(hist, max_index)
-  max_index= double(max_index)*(80.0)/100.0
-  first_minimum=max_index-low_limit
-  first_maximum=max_index+high_limit
+    hist = histogram(temp_first, MIN=0, MAX=80, NBINS=100)
+    PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'first Average Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
+    dummy=max(hist, max_index)
+    max_index= double(max_index)*(80.0)/100.0
+    first_minimum=max_index-low_limit
+    first_maximum=max_index+high_limit
 
 	window, 4, TITLE = 'Histogram of second average image'
 	hist = histogram(temp_second, MIN=0, MAX=80, NBINS=100)
@@ -260,20 +260,19 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	second_maximum=max_index+high_limit
 
 	window, 5, TITLE = 'Histogram of third average image'
-  hist = histogram(temp_third, MIN=0, MAX=80, NBINS=100)
-  PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'third Average Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
-  dummy=max(hist, max_index)
-  max_index= double(max_index)*(80.0)/100.0
-  third_minimum=max_index-low_limit
-  third_maximum=max_index+high_limit
-
+    hist = histogram(temp_third, MIN=0, MAX=80, NBINS=100)
+    PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'third Average Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
+    dummy=max(hist, max_index)
+    max_index= double(max_index)*(80.0)/100.0
+    third_minimum=max_index-low_limit
+    third_maximum=max_index+high_limit
 
 	window, 6, TITLE = 'Histogram of first image'
 	window, 7, TITLE = 'Smoothed Histogram of first image'
 	window, 8, TITLE = 'Histogram of second image'
 	window, 9, TITLE = 'smoothed Histogram of second image'
 	window, 10, TITLE = 'Histogram of third image'
-  window, 11, TITLE = 'smoothed Histogram of third image'
+    window, 11, TITLE = 'smoothed Histogram of third image'
 
 	for i = halfbinwidth, film_width, binwidth do begin
 		for j = halfbinwidth, film_height, binwidth do begin
@@ -298,14 +297,14 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 			dummy=max(hist, max_index_second)
 			max_index_second= second_minimum + double(max_index_second)*(second_maximum-second_minimum)/bin_num
 
-      hist=histogram(temp_third(i-halfbinwidth:i+halfbinwidth_1,j-halfbinwidth:j+halfbinwidth_1), MIN=third_minimum, MAX=third_maximum, NBINS=bin_num)
-      wset, 10
-      PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'third Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
-      hist= smooth(hist, 5, /EDGE_TRUNCATE)
-      wset, 11
-      PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'third Smoothed Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
-      dummy=max(hist, max_index_third)
-      max_index_third= third_minimum + double(max_index_third)*(third_maximum-third_minimum)/bin_num
+            hist=histogram(temp_third(i-halfbinwidth:i+halfbinwidth_1,j-halfbinwidth:j+halfbinwidth_1), MIN=third_minimum, MAX=third_maximum, NBINS=bin_num)
+            wset, 10
+            PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'third Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
+            hist= smooth(hist, 5, /EDGE_TRUNCATE)
+            wset, 11
+            PLOT, hist, /XSTYLE, /YSTYLE, TITLE = 'third Smoothed Image Histogram', XTITLE = 'Intensity Value Index', YTITLE = 'Number of Pixels of That Value'
+            dummy=max(hist, max_index_third)
+            max_index_third= third_minimum + double(max_index_third)*(third_maximum-third_minimum)/bin_num
 
 			;WIDGET_CONTROL, text_ID, SET_VALUE=(STRING(max_index_second) + STRING(max_index_red) + STRING(min(temp_second(i-halfbinwidth:i+halfbinwidth_1,j-halfbinwidth:j+halfbinwidth_1))) + STRING(min(temp_red(i-halfbinwidth:i+halfbinwidth_1,j-halfbin
 			minimum_intensity_matrix_first((i-halfbinwidth)/binwidth,(j-halfbinwidth)/binwidth) = max_index_first
@@ -313,25 +312,25 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 			minimum_intensity_matrix_third((i-halfbinwidth)/binwidth,(j-halfbinwidth)/binwidth) = max_index_third
 		endfor
 	endfor
-  minimum_intensity_matrix_first = rebin(minimum_intensity_matrix_first, film_width, film_height)
+    minimum_intensity_matrix_first = rebin(minimum_intensity_matrix_first, film_width, film_height)
 	minimum_intensity_matrix_second = rebin(minimum_intensity_matrix_second, film_width, film_height)
 	minimum_intensity_matrix_third = rebin(minimum_intensity_matrix_third, film_width, film_height)
 	minimum_intensity_matrix_first = smooth(minimum_intensity_matrix_first, 20, /EDGE_TRUNCATE)
 	minimum_intensity_matrix_second = smooth(minimum_intensity_matrix_second, 20, /EDGE_TRUNCATE)
 	minimum_intensity_matrix_third = smooth(minimum_intensity_matrix_third, 20, /EDGE_TRUNCATE)
 
-  window, 12, xsize = film_width, ysize = film_height, title = 'background_first'
-  tv, (minimum_intensity_matrix_first*255/max(minimum_intensity_matrix_first))>0
+    window, 12, xsize = film_width, ysize = film_height, title = 'background_first'
+    tv, (minimum_intensity_matrix_first*255/max(minimum_intensity_matrix_first))>0
 	window, 13, xsize = film_width, ysize = film_height, title = 'background_second'
 	tv, (minimum_intensity_matrix_second*255/max(minimum_intensity_matrix_second))>0
 	window, 14, xsize = film_width, ysize = film_height, title = 'background_third'
-  tv, (minimum_intensity_matrix_third*255/max(minimum_intensity_matrix_third))>0
+    tv, (minimum_intensity_matrix_third*255/max(minimum_intensity_matrix_third))>0
 
-  modified_frame_first = frame_average_first - minimum_intensity_matrix_first
+    modified_frame_first = frame_average_first - minimum_intensity_matrix_first
 	modified_frame_second = frame_average_second - minimum_intensity_matrix_second
 	modified_frame_third = frame_average_third - minimum_intensity_matrix_third
 
-  modified_frame_first=modified_frame_first*255/max(modified_frame_first)
+    modified_frame_first=modified_frame_first*255/max(modified_frame_first)
 	modified_frame_second=modified_frame_second*255/max(modified_frame_second)
 	modified_frame_third=modified_frame_third*255/max(modified_frame_third)
 
@@ -340,7 +339,7 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	window, 16, xsize = film_width, ysize = film_height, title = 'modified_frame_second'
 	tv, (modified_frame_second>0)
 	window, 17, xsize = film_width, ysize = film_height, title = 'modified_frame_third'
-  tv, (modified_frame_third>0)
+    tv, (modified_frame_third>0)
 
 	; open file that contains how the channels map onto each second
 
@@ -389,16 +388,16 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 
   window, 18, xsize = film_width_tri, ysize = film_height, title = 'combined_frame_first'
   tv, combined_frame_first
-	window, 19, xsize = film_width_tri, ysize = film_height, title = 'combined_frame_second'
-	tv, combined_frame_second
-	window, 20, xsize = film_width_tri, ysize = film_height, title = 'combined_frame_third'
+  window, 19, xsize = film_width_tri, ysize = film_height, title = 'combined_frame_second'
+  tv, combined_frame_second
+  window, 20, xsize = film_width_tri, ysize = film_height, title = 'combined_frame_third'
   tv, combined_frame_third
 
   medianofFrame_first = float(median(combined_frame_first(margin:(film_width_tri-1-margin),margin:(film_height-1-margin))))
   varianceofFrame_first = variance(combined_frame_first(margin:(film_width_tri-1-margin),margin:(film_height-1-margin)))
-	medianofFrame_second = float(median(combined_frame_second(margin:(film_width_tri-1-margin),margin:(film_height-1-margin))))
-	varianceofFrame_second = variance(combined_frame_second(margin:(film_width_tri-1-margin),margin:(film_height-1-margin)))
-	medianofFrame_third = float(median(combined_frame_third(margin:(film_width_tri-1-margin),margin:(film_height-1-margin))))
+  medianofFrame_second = float(median(combined_frame_second(margin:(film_width_tri-1-margin),margin:(film_height-1-margin))))
+  varianceofFrame_second = variance(combined_frame_second(margin:(film_width_tri-1-margin),margin:(film_height-1-margin)))
+  medianofFrame_third = float(median(combined_frame_third(margin:(film_width_tri-1-margin),margin:(film_height-1-margin))))
   varianceofFrame_third = variance(combined_frame_third(margin:(film_width_tri-1-margin),margin:(film_height-1-margin)))
 
   deviation_first = sqrt(varianceofFrame_first)
@@ -409,16 +408,16 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 
   cutoff_first = byte(medianofFrame_first + deviation_first)
   truncated_frame_first = float(combined_frame_first gt cutoff_first)*combined_frame_first
-	cutoff_second = byte(medianofFrame_second + deviation_second)
-	truncated_frame_second = float(combined_frame_second gt cutoff_second)*combined_frame_second
-	cutoff_third = byte(medianofFrame_third + deviation_third)
+  cutoff_second = byte(medianofFrame_second + deviation_second)
+  truncated_frame_second = float(combined_frame_second gt cutoff_second)*combined_frame_second
+  cutoff_third = byte(medianofFrame_third + deviation_third)
   truncated_frame_third = float(combined_frame_third gt cutoff_third)*combined_frame_third
 
   window, 21, xsize = film_width_tri, ysize = film_height, title = 'truncated_frame_first'
   tv, truncated_frame_first
-	window, 22, xsize = film_width_tri, ysize = film_height, title = 'truncated_frame_second'
-	tv, truncated_frame_second
-	window, 23, xsize = film_width_tri, ysize = film_height, title = 'truncated_frame_third'
+  window, 22, xsize = film_width_tri, ysize = film_height, title = 'truncated_frame_second'
+  tv, truncated_frame_second
+  window, 23, xsize = film_width_tri, ysize = film_height, title = 'truncated_frame_third'
   tv, truncated_frame_third
 
 ;  WIDGET_CONTROL, text_ID, SET_VALUE=("median :" + STRING(medianofFrame)), /APPEND, /SHOW
@@ -481,12 +480,12 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	toosmall(*,9) = [ 0,0,0,0,0,0,0,0,0,0,0]
 	toosmall(*,10)= [ 0,0,0,0,0,0,0,0,0,0,0]
 
-  GoodLocations_x_first = intarr(10000)
-  GoodLocations_y_first = intarr(10000)
+    GoodLocations_x_first = intarr(10000)
+    GoodLocations_y_first = intarr(10000)
 	GoodLocations_x_second = intarr(10000)
 	GoodLocations_y_second = intarr(10000)
 	GoodLocations_x_third = intarr(10000)
-  GoodLocations_y_third = intarr(10000)
+    GoodLocations_y_third = intarr(10000)
 	GoodLocations_x_all = intarr(10000)
 	GoodLocations_y_all = intarr(10000)
 	GoodLocations_x = intarr(10000)
@@ -500,18 +499,18 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 	Background = dblarr(10000)
 
 	NumberofGoodLocations_first = 0
-  NumberofBadLocations_first = 0
+    NumberofBadLocations_first = 0
 	NumberofGoodLocations_second = 0
 	NumberofBadLocations_second = 0
 	NumberofGoodLocations_third = 0
-  NumberofBadLocations_third = 0
+    NumberofBadLocations_third = 0
 	NumberofGoodLocations_all = 0
 	NumberofBadLocations_all = 0
 	NumberofGoodLocations = 0
 	NumberofBadLocations = 0
 	temp_all_first = modified_frame_first
-  temp_all_second = modified_frame_second
-  temp_all_third = modified_frame_third
+    temp_all_second = modified_frame_second
+    temp_all_third = modified_frame_third
 
 	for c=0, 2 do begin
 		if c eq 0 then begin
@@ -531,18 +530,21 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 			minimum_intensity_matrix = minimum_intensity_matrix_second
 		endif
 		if c eq 2 then begin
-      truncated_frame = truncated_frame_third
-      modified_frame = modified_frame_third
-      combined_frame = combined_frame_third
-      temp = modified_frame_third
-      temp_emphasized = truncated_frame_third
-      minimum_intensity_matrix = minimum_intensity_matrix_third
-    endif
+            truncated_frame = truncated_frame_third
+            modified_frame = modified_frame_third
+            combined_frame = combined_frame_third
+            temp = modified_frame_third
+            temp_emphasized = truncated_frame_third
+            minimum_intensity_matrix = minimum_intensity_matrix_third
+        endif
+
 ;		GoodLocations_x = intarr(4000)
 ;		GoodLocations_y = intarr(4000)
 ;		Background = dblarr(4000)
+
 		NumberofGoodLocations = 0
 		NumberofBadLocations = 0
+
 		for j = edge, film_height - edge -1 do begin
 	    	for i = edge, film_width_tri - edge -1 do begin
 				if truncated_frame(i,j) gt 0 then begin
@@ -573,7 +575,7 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 						quality=total( (combined_frame(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) gt cutoff) * (circle eq 1) )
 						occupy=total( (truncated_frame(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) gt 0) * toosmall  )
 
-	          if (quality lt quality_num) and (occupy gt occupy_num) then begin
+	                    if (quality lt quality_num) and (occupy gt occupy_num) then begin
 
 							; draw where peak was found on screen
 
@@ -586,17 +588,17 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 							if c eq 2 then begin
 								for g = 0, NumberofGoodLocations_second - 1 do begin
 								  if (abs(GoodLocations_x_second(g)-Max_location_x) le 2)and(abs(GoodLocations_y_second(g)-Max_location_y) le 2) then begin
-								    ;for h = 0, NumberofGoodLocations_first - 1 do begin
-								      ;if (abs(GoodLocations_x_first(h)-Max_location_x) le 2) and (abs(GoodLocations_y_first(h)-Max_location_y) le 2) then begin
-                        all_check = 'y'
-                      ;endif
-                    ;endfor
-                  endif
-                endfor
-              endif
+								    for h = 0, NumberofGoodLocations_first - 1 do begin
+								      if (abs(GoodLocations_x_first(h)-Max_location_x) le 2) and (abs(GoodLocations_y_first(h)-Max_location_y) le 2) then begin
+                                        all_check = 'y'
+                                      endif
+                                    endfor
+                                  endif
+                                endfor
+                            endif
 
 							if all_check eq 'y' then begin
-							  temp_all_first(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) = (circle eq 0) * temp_all_first(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) + (circle ne 0) * 90.0
+							    temp_all_first(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) = (circle eq 0) * temp_all_first(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) + (circle ne 0) * 90.0
 								temp_all_second(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) = (circle eq 0) * temp_all_second(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) + (circle ne 0) * 90.0
 								temp_all_third(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) = (circle eq 0) * temp_all_third(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) + (circle ne 0) * 90.0
 							endif
