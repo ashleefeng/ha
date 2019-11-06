@@ -5,7 +5,8 @@ close all;
 
 %% path and filename setting
 WorkingDirectory = pwd;
-filename_head = 'hel1';
+filename_head = 'hel2';
+folder_prefix = '191008-1';
 
 %% Correction parameters for FRET%%
 dbackground_b=0;
@@ -132,6 +133,18 @@ TempAcceptor_g_region = [];
 TempDonor_r_region = [];
 TempDonor2_r_region = [];
 TempAcceptor_r_region = [];
+
+dbackground_b_temp = dbackground_b;
+d2background_b_temp = d2background_b;
+abackground_b_temp = abackground_b;
+
+dbackground_g_temp = dbackground_g;
+d2background_g_temp = d2background_g;
+abackground_g_temp = abackground_g;
+
+dbackground_r_temp = dbackground_r;
+d2background_r_temp = d2background_r;
+abackground_r_temp = abackground_r;
 
 if DoseMovieNeed == 'y'
     cd(WorkingDirectory);
@@ -496,22 +509,22 @@ zoom on;
 
 
 %% Start to servey
-Temptime = [];
+%Temptime = [];
 %TempFret = [];
 %TempDonor = [];
 %TempAcceptor = [];
-TempFret12 = [];
-TempFret13 = [];
-TempFret23 = [];
-TempDonor_b = [];
-TempDonor2_b = [];
-TempAcceptor_b = [];
-TempDonor_g = [];
-TempDonor2_g = [];
-TempAcceptor_g = [];
-TempDonor_r = [];
-TempDonor2_r= [];
-TempAcceptor_r = [];
+% TempFret12 = [];
+% TempFret13 = [];
+% TempFret23 = [];
+% TempDonor_b = [];
+% TempDonor2_b = [];
+% TempAcceptor_b = [];
+% TempDonor_g = [];
+% TempDonor2_g = [];
+% TempAcceptor_g = [];
+% TempDonor_r = [];
+% TempDonor2_r= [];
+% TempAcceptor_r = [];
 r12_list = [];
 r13_list = [];
 r23_list = [];
@@ -548,21 +561,21 @@ while i < NumberofPeaks
 
     i = i + 1;
     
-    if prev_i ~= i
-        corrected = false;
-    end
+%     if prev_i ~= i
+%         corrected = false;
+%     end
     
-    if ColorNumber == 3 && ~corrected
+    if ColorNumber == 3
         if strcmp(DyeType, 'cy235') == 1
-            DonorCorrect_b = ((1 + leakage12 + leakage13) / (1 - leakage12 * leakage21)) * ((DonorRawData_b(i,:) - dbackground_b) - leakage21 * (Donor2RawData_g(i,:) - d2background_b));
-            Donor2Correct_b = gamma12 * ((1 + leakage21 + leakage23) / (1 - leakage12 * leakage21)) * ((Donor2RawData_b(i,:) - d2background_b) - leakage12 * (DonorRawData_b(i,:) - dbackground_b));
-            AcceptorCorrect_b = gamma13 * ((AcceptorRawData_b(i,:) - abackground_b) - ((leakage23 * leakage12 - leakage13)/(1 - leakage12 * leakage21)) * (DonorRawData_b(i,:) - dbackground_b) + ((leakage13 * leakage21 - leakage23 ) / (1 - leakage12 * leakage21)) * (Donor2RawData_b(i,:) -d2background_b));
+            DonorCorrect_b = ((1 + leakage12 + leakage13) / (1 - leakage12 * leakage21)) * ((DonorRawData_b(i,:) - dbackground_b_temp) - leakage21 * (Donor2RawData_g(i,:) - d2background_b_temp));
+            Donor2Correct_b = gamma12 * ((1 + leakage21 + leakage23) / (1 - leakage12 * leakage21)) * ((Donor2RawData_b(i,:) - d2background_b_temp) - leakage12 * (DonorRawData_b(i,:) - dbackground_b_temp));
+            AcceptorCorrect_b = gamma13 * ((AcceptorRawData_b(i,:) - abackground_b_temp) - ((leakage23 * leakage12 - leakage13)/(1 - leakage12 * leakage21)) * (DonorRawData_b(i,:) - dbackground_b_temp) + ((leakage13 * leakage21 - leakage23 ) / (1 - leakage12 * leakage21)) * (Donor2RawData_b(i,:) -d2background_b_temp));
             EachTotalCorrect_b = DonorCorrect_b + Donor2Correct_b + AcceptorCorrect_b;
             EachTotalCorrect_b = (EachTotalCorrect_b~=0).*EachTotalCorrect_b + (EachTotalCorrect_b==0)*1;	% remove zeros
             
-            DonorCorrect_g = ((1 + leakage12 + leakage13) / (1 - leakage12 * leakage21)) * ((DonorRawData_g(i,:) - dbackground_g) - leakage21 * (Donor2RawData_g(i,:) - d2background_g));
-            Donor2Correct_g = gamma12 * ((1 + leakage21 + leakage23) / (1 - leakage12 * leakage21)) * ((Donor2RawData_g(i,:) - d2background_g) - leakage12 * (DonorRawData_g(i,:) - dbackground_g));
-            AcceptorCorrect_g = gamma13 * ((AcceptorRawData_g(i,:) - abackground_g) - ((leakage23 * leakage12 - leakage13)/(1 - leakage12 * leakage21)) * (DonorRawData_g(i,:) - dbackground_g) + ((leakage13 * leakage21 - leakage23 ) / (1 - leakage12 * leakage21)) * (Donor2RawData_g(i,:) -d2background_g));
+            DonorCorrect_g = ((1 + leakage12 + leakage13) / (1 - leakage12 * leakage21)) * ((DonorRawData_g(i,:) - dbackground_g_temp) - leakage21 * (Donor2RawData_g(i,:) - d2background_g_temp));
+            Donor2Correct_g = gamma12 * ((1 + leakage21 + leakage23) / (1 - leakage12 * leakage21)) * ((Donor2RawData_g(i,:) - d2background_g_temp) - leakage12 * (DonorRawData_g(i,:) - dbackground_g_temp));
+            AcceptorCorrect_g = gamma13 * ((AcceptorRawData_g(i,:) - abackground_g_temp) - ((leakage23 * leakage12 - leakage13)/(1 - leakage12 * leakage21)) * (DonorRawData_g(i,:) - dbackground_g_temp) + ((leakage13 * leakage21 - leakage23 ) / (1 - leakage12 * leakage21)) * (Donor2RawData_g(i,:) -d2background_g_temp));
             AcceptorCorrect_g = AcceptorCorrect_g - direct * (Donor2Correct_g + AcceptorCorrect_g);
             EachTotalCorrect_g = Donor2Correct_g + AcceptorCorrect_g;
             EachTotalCorrect_g = (EachTotalCorrect_g~=0).*EachTotalCorrect_g + (EachTotalCorrect_g==0)*1;	% remove zeros
@@ -576,7 +589,7 @@ while i < NumberofPeaks
             Fret23 = AcceptorCorrect_g./EachTotalCorrect_g;
             Fret12 = Donor2Correct_b./((1-Fret23).*DonorCorrect_b + Donor2Correct_b);
             Fret13 = (AcceptorCorrect_b - Fret23.*(Donor2Correct_b + AcceptorCorrect_b))./(DonorCorrect_b + AcceptorCorrect_b - Fret23 .* (EachTotalCorrect_b));
-            corrected = true;
+            %corrected = true;
         end
     end
     
@@ -788,36 +801,33 @@ while i < NumberofPeaks
         
         [raw_x, ~] = ginput(2);
         x = round(raw_x / (3*timeunit));
-        d1d1_bg = mean(DonorCorrect_b(x(1):x(2)));
-        d1d2_bg = mean(Donor2Correct_b(x(1):x(2)));
-        d1ac_bg = mean(AcceptorCorrect_b(x(1):x(2)));
-        disp(d1d1_bg);
-        disp(d1d2_bg);
-        disp(d1ac_bg);
+        dbackground_b_temp = mean(DonorRawData_b(i, x(1):x(2)));
+        d2background_b_temp = mean(Donor2RawData_b(i, x(1):x(2)));
+        abackground_b_temp = mean(AcceptorRawData_b(i, x(1):x(2)));
         
-        d2d1_bg = mean(DonorCorrect_g(x(1):x(2)));
-        d2d2_bg = mean(Donor2Correct_g(x(1):x(2)));
-        d2ac_bg = mean(AcceptorCorrect_g(x(1):x(2)));
+        dbackground_g_temp = mean(DonorRawData_g(i, x(1):x(2)));
+        d2background_g_temp = mean(Donor2RawData_g(i, x(1):x(2)));
+        abackground_g_temp = mean(AcceptorRawData_g(i, x(1):x(2)));
         
-        acd1_bg = mean(DonorCorrect_r(x(1):x(2)));
-        acd2_bg = mean(Donor2Correct_r(x(1):x(2)));
-        acac_bg = mean(AcceptorCorrect_r(x(1):x(2)));
+        dbackground_r_temp = mean(DonorRawData_r(i, x(1):x(2)));
+        d2background_r_temp = mean(Donor2RawData_r(i, x(1):x(2)));
+        abackground_r_temp = mean(AcceptorRawData_r(i, x(1):x(2)));
         
-        DonorCorrect_b = DonorCorrect_b - d1d1_bg;
-        Donor2Correct_b = Donor2Correct_b - d1d2_bg;
-        AcceptorCorrect_b = AcceptorCorrect_b - d1ac_bg;
-        
-        DonorCorrect_g = DonorCorrect_g - d2d1_bg;
-        Donor2Correct_g = Donor2Correct_g - d2d2_bg;
-        AcceptorCorrect_g = AcceptorCorrect_g - d2ac_bg;
-        
-        DonorCorrect_r = DonorCorrect_r - acd1_bg;
-        Donor2Correct_r = Donor2Correct_r - acd2_bg;
-        AcceptorCorrect_r = AcceptorCorrect_r - acac_bg;
-
-        Fret23 = AcceptorCorrect_g./EachTotalCorrect_g;
-        Fret12 = Donor2Correct_b./((1-Fret23).*DonorCorrect_b + Donor2Correct_b);
-        Fret13 = (AcceptorCorrect_b - Fret23.*(Donor2Correct_b + AcceptorCorrect_b))./(DonorCorrect_b + AcceptorCorrect_b - Fret23 .* (EachTotalCorrect_b));
+%         DonorCorrect_b = DonorCorrect_b - d1d1_bg;
+%         Donor2Correct_b = Donor2Correct_b - d1d2_bg;
+%         AcceptorCorrect_b = AcceptorCorrect_b - d1ac_bg;
+%         
+%         DonorCorrect_g = DonorCorrect_g - d2d1_bg;
+%         Donor2Correct_g = Donor2Correct_g - d2d2_bg;
+%         AcceptorCorrect_g = AcceptorCorrect_g - d2ac_bg;
+%         
+%         DonorCorrect_r = DonorCorrect_r - acd1_bg;
+%         Donor2Correct_r = Donor2Correct_r - acd2_bg;
+%         AcceptorCorrect_r = AcceptorCorrect_r - acac_bg;
+% 
+%         Fret23 = AcceptorCorrect_g./EachTotalCorrect_g;
+%         Fret12 = Donor2Correct_b./((1-Fret23).*DonorCorrect_b + Donor2Correct_b);
+%         Fret13 = (AcceptorCorrect_b - Fret23.*(Donor2Correct_b + AcceptorCorrect_b))./(DonorCorrect_b + AcceptorCorrect_b - Fret23 .* (EachTotalCorrect_b));
         
         i = i - 1;
 
@@ -828,20 +838,19 @@ while i < NumberofPeaks
         
         [raw_x, ~] = ginput(2);
         x = round(raw_x / (3*timeunit));
-        d1d1_bg = mean(DonorCorrect_b(x(1):x(2)));
-        d1d2_bg = mean(Donor2Correct_b(x(1):x(2)));
-        d1ac_bg = mean(AcceptorCorrect_b(x(1):x(2)));
-        disp(d1d1_bg);
-        disp(d1d2_bg);
-        disp(d1ac_bg);
+        dbackground_b_temp = mean(DonorRawData_b(i, x(1):x(2)));
+        d2background_b_temp = mean(Donor2RawData_b(i, x(1):x(2)));
+        abackground_b_temp = mean(AcceptorRawData_b(i, x(1):x(2)));
+%         disp(d1d1_bg);
+%         disp(d1d2_bg);
+%         disp(d1ac_bg);
         
-        DonorCorrect_b = DonorCorrect_b - d1d1_bg;
-        Donor2Correct_b = Donor2Correct_b - d1d2_bg;
-        AcceptorCorrect_b = AcceptorCorrect_b - d1ac_bg;
-
-        Fret12 = Donor2Correct_b./((1-Fret23).*DonorCorrect_b + Donor2Correct_b);
-        Fret13 = (AcceptorCorrect_b - Fret23.*(Donor2Correct_b + AcceptorCorrect_b))./(DonorCorrect_b + AcceptorCorrect_b - Fret23 .* (EachTotalCorrect_b));
-        
+%         DonorCorrect_b = DonorCorrect_b - d1d1_bg;
+%         Donor2Correct_b = Donor2Correct_b - d1d2_bg;
+%         AcceptorCorrect_b = AcceptorCorrect_b - d1ac_bg;
+% 
+%         Fret12 = Donor2Correct_b./((1-Fret23).*DonorCorrect_b + Donor2Correct_b);
+%         Fret13 = (AcceptorCorrect_b - Fret23.*(Donor2Correct_b + AcceptorCorrect_b))./(DonorCorrect_b + AcceptorCorrect_b - Fret23 .* (EachTotalCorrect_b));
         i = i - 1;
 
         continue; 
@@ -931,28 +940,39 @@ while i < NumberofPeaks
     end
     
     if answer == 'l' % save select
-        [Xc, ~, ~] = ginput(2);
-        if (Xc(1)>Xc(2))
-            temp = Xc(1);
-            Xc(1) = Xc(2);
-            Xc(2) = temp;
-        end
-        firstpoint = round(Xc(1)/(3*timeunit));
-        lastpoint = round(Xc(2)/(3*timeunit));
-        disp(firstpoint);
-        disp(lastpoint);
-        Temptime = [Temptime time_g(firstpoint:lastpoint)];
-        TempFret12 = [TempFret12 Fret12(firstpoint:lastpoint)];
-        TempFret13 = [TempFret13 Fret13(firstpoint:lastpoint)];
-        TempFret23 = [TempFret23 Fret23(firstpoint:lastpoint)];
-        TempDonor_g = [TempDonor_g DonorCorrect_g(firstpoint:lastpoint)];
-        TempDonor2_g = [TempDonor2_g Donor2Correct_g(firstpoint:lastpoint)];
-        TempDonor_r = [TempDonor_r DonorCorrect_r(firstpoint:lastpoint)];
-        TempDonor2_r = [TempDonor2_r Donor2Correct_r(firstpoint:lastpoint)];
-        TempAcceptor_g = [TempAcceptor_g AcceptorCorrect_g(firstpoint:lastpoint)];
-        TempAcceptor_r = [TempAcceptor_r AcceptorCorrect_r(firstpoint:lastpoint)];
-        output = [ Temptime' TempFret12' TempFret13' TempFret23' TempDonor_g' TempDonor2_g' TempAcceptor_g' TempDonor_r' TempDonor2_r' TempAcceptor_r'];
-        file_outname = sprintf('%s_trace_%i.dat', filename_head, i);
+%         [Xc, ~, ~] = ginput(2);
+%         if (Xc(1)>Xc(2))
+%             temp = Xc(1);
+%             Xc(1) = Xc(2);
+%             Xc(2) = temp;
+%         end
+%         firstpoint = round(Xc(1)/(3*timeunit));
+%         lastpoint = round(Xc(2)/(3*timeunit));
+%         disp(firstpoint);
+%         disp(lastpoint);
+        firstpoint = 1;
+        lastpoint = length(time_g);
+        Temptime = time_g(firstpoint:lastpoint);
+        TempFret12 = Fret12(firstpoint:lastpoint);
+        TempFret13 = Fret13(firstpoint:lastpoint);
+        TempFret23 = Fret23(firstpoint:lastpoint);
+        TempDonor_b = DonorCorrect_b(firstpoint:lastpoint);
+        TempDonor2_b = Donor2Correct_b(firstpoint:lastpoint);
+        TempAcceptor_b = AcceptorCorrect_b(firstpoint:lastpoint);
+        TempDonor_g = DonorCorrect_g(firstpoint:lastpoint);
+        TempDonor2_g = Donor2Correct_g(firstpoint:lastpoint);
+        TempAcceptor_g = AcceptorCorrect_g(firstpoint:lastpoint);
+        TempDonor_r = DonorCorrect_r(firstpoint:lastpoint);
+        TempDonor2_r = Donor2Correct_r(firstpoint:lastpoint);
+        TempAcceptor_r = AcceptorCorrect_r(firstpoint:lastpoint);
+        output = [ Temptime' TempFret12' TempFret13' TempFret23' ...
+            TempDonor_b' TempDonor2_b' TempAcceptor_b' ...
+            TempDonor_g' TempDonor2_g' TempAcceptor_g' ...
+            TempDonor_r' TempDonor2_r' TempAcceptor_r' ...
+            DonorRawData_b(i, :)' Donor2RawData_b(i, :)' AcceptorRawData_b(i, :)' ...
+            DonorRawData_g(i, :)' Donor2RawData_g(i, :)' AcceptorRawData_g(i, :)' ...
+            DonorRawData_r(i, :)' Donor2RawData_r(i, :)' AcceptorRawData_r(i, :)'];
+        file_outname = sprintf('%s_%s_trace_%i.dat', folder_prefix, filename_head, i);
         save(file_outname,'output','-ascii');
     end
     
@@ -1103,6 +1123,18 @@ while i < NumberofPeaks
     
     firstpoint = 1;
     lastpoint = time_length_each;
+
+    dbackground_b_temp = dbackground_b;
+    d2background_b_temp = d2background_b;
+    abackground_b_temp = abackground_b;
+
+    dbackground_g_temp = dbackground_g;
+    d2background_g_temp = d2background_g;
+    abackground_g_temp = abackground_g;
+
+    dbackground_r_temp = dbackground_r;
+    d2background_r_temp = d2background_r;
+    abackground_r_temp = abackground_r;
 end
 
 %%save region datas

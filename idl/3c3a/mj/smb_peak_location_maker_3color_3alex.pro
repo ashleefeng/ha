@@ -1,4 +1,5 @@
 ; This program is designed for 3-color experiment with 3 laser alex
+; edited by X. Feng to select spots with all three colors Nov 5, 2019 xfeng17@jhu.edu
 
 pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 
@@ -584,6 +585,7 @@ pro smb_peak_location_maker_3color_3alex, run, mapfile, text_ID
 
 							temp(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) = (circle eq 0) * temp(aroundMax_left:aroundMax_right, aroundMax_bottom:aroundMax_top) + (circle ne 0) * 90.0
 
+                            ; filter for spots that have all three colors - XF
 							all_check = 'n'
 							if c eq 2 then begin
 								for g = 0, NumberofGoodLocations_second - 1 do begin

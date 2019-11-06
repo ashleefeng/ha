@@ -1,6 +1,6 @@
-dt = [dt3a;dt3b];
+dt = g1;
 
-h = histogram(dt);
+h = histogram(dt, 'BinWidth', 5);
 xlabel('Time(s)');
 ylabel('Count');
 set(gca, 'FontSize', 20);
@@ -12,7 +12,14 @@ x = x(1:size(x,2)-1);
 
 y = h.Values;
 
-xfit = 10:1:260;
+xfit = 2.5:1:200;
 hold on
 plot(xfit, fittedmodel(xfit), 'LineStyle', '--', 'LineWidth', 2);
-title('\tau_3 = 48.2 s (38.7, 63.9)');
+title('\tau_2 = 8.85s (8.18, 9.65)');
+xlim([-10 200]);
+ylim([0 170]);
+hold off
+diary ATPgS_fit.log
+fittedmodel
+goodness
+diary off
