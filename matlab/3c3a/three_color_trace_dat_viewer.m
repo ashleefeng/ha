@@ -3,15 +3,22 @@
 
 listing = dir(pwd);
 figure;
-for file = {listing.name}
-    fname = file{1};
+files = {listing.name};
+i = 3;
+while i < length(files)
+    fname = files{i};
     if strcmp(fname,'.') || strcmp(fname,'..')
         continue
     end
+    
     [filepath,name,ext] = fileparts(fname);
    	if strcmp(ext, '.dat')
-        ginput;
+        keyanswer = input('Enter=next trace, b=go back: ', 's');
+        if strcmp(keyanswer, 'b')
+            i = i - 1;
+        end
         trc_data = three_color_trace_dat_reader(fname);
         three_color_trace_plotter(trc_data, name, 1, 500);
     end
+    i = i + 1;
 end

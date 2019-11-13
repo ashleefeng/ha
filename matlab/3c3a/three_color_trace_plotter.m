@@ -30,6 +30,7 @@ function three_color_trace_plotter(trc, trc_name, firstpoint, lastpoint)
     subplot('position',[0.1 0.36 0.8 0.1]);
     %	FretEc=(1./(1+gamma*(donorcorrect(i,:)./acceptorcorrect(i,:))));
     plot(trc.time(firstpoint:lastpoint), trc.fret01(firstpoint:lastpoint));
+    ylim([-0.1 1.1]);
     title('Cy3 Cy5 FRET');
     ylabel('FRET');
     set(gca, 'FontSize', 12);
