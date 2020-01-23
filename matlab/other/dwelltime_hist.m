@@ -1,9 +1,9 @@
-dt = g1;
+dt = dt4;
 
-h = histogram(dt, 'BinWidth', 5);
+h = histogram(dt, 10);
 xlabel('Time(s)');
 ylabel('Count');
-set(gca, 'FontSize', 20);
+set(gca, 'FontSize', 15);
 
 mean(h.Values)
 h.BinEdges
@@ -12,14 +12,14 @@ x = x(1:size(x,2)-1);
 
 y = h.Values;
 
-xfit = 2.5:1:200;
+xfit = 0.9 :0.1:20;
 hold on
 plot(xfit, fittedmodel(xfit), 'LineStyle', '--', 'LineWidth', 2);
-title('\tau_2 = 8.85s (8.18, 9.65)');
-xlim([-10 200]);
-ylim([0 170]);
+title('\tau_4 = 1.63s (1.37, 2.02)');
+% xlim([-10 200]);
+% ylim([0 170]);
 hold off
-diary ATPgS_fit.log
+diary dt4_fit.log
 fittedmodel
 goodness
 diary off

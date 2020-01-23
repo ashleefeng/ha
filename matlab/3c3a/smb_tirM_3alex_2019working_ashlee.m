@@ -6,12 +6,11 @@ close all;
 %% path and filename setting
 WorkingDirectory = pwd;
 filename_head = 'hel2';
-folder_prefix = '191008-1';
+folder_prefix = '200121-1';
 
 %% Correction parameters for FRET%%
 dbackground_b=0;
-d2background_b=0;
-abackground_b=0;
+d2background_b=0;abackground_b=0;
 
 dbackground_g=0;
 d2background_g=0;
@@ -19,7 +18,7 @@ abackground_g=0;
 
 dbackground_r=0;
 d2background_r=0;
-abackground_r=0;
+abackground_r=0; 
 
 leakage12=0.1066;   %0.11
 leakage21=0.0;
@@ -30,7 +29,7 @@ gamma12=0.8730;  %1
 gamma23 = 2.62;
 gamma13=gamma12*gamma23;
 
-direct = 0.1578; %ashlee: 0.1578;
+direct = 0.117; %ashlee: 0.1578;
 
 %% Options
 LaserOrderChange = 'y'; %Check this part when excitation laser order is matched.
@@ -45,7 +44,7 @@ FirstNumber = 10;       % histogram options
 LastNumber = 10;        % histogram options
 
 %% Trace axis range
-BottomLimit_b=-100;
+BottomLimit_b=-600;
 UpperLimit_b=1000;
 BottomLimit_g=-300;
 UpperLimit_g=1000;
@@ -60,6 +59,7 @@ if sum(size(fileinfo)) == 1
 end
 %date = fileinfo(1).date;
 fileid_log = fopen([filename_head '.log'],'r');		%% .log file
+%fileid_log = fopen(['hel1.log'],'r');	
 logarray = textscan(fileid_log, '%s', 'Delimiter','\n');
 timeunit = 0.001*str2double(logarray{1,1}{strmatch('Exposure Time [ms]', logarray{1,1})+1});
 gain = str2double(logarray{1,1}{strmatch('Gain', logarray{1,1})+1}); 
@@ -626,7 +626,7 @@ while i < NumberofPeaks
     temp(4)=UpperLimit_b;
     grid on;
     axis(temp);
-    title(['Green Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
+    title(['Green Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head], 'Interpreter', 'none');
     ylabel('Intensity');
     zoom on;
     set(gca, 'FontSize', 12);
@@ -639,7 +639,7 @@ while i < NumberofPeaks
     temp(4)=UpperLimit_g;
     grid on;
     axis(temp);
-    title(['Red Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
+    title(['Red Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head], 'Interpreter', 'none');
     zoom on;
     ylabel('Intensity');
     set(gca, 'FontSize', 12);
@@ -652,7 +652,7 @@ while i < NumberofPeaks
     temp(4)=UpperLimit_r;
     grid on;
     axis(temp);
-    title(['750 Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head]);
+    title(['750 Laser Molecule ' num2str(i) '  / ' num2str(NumberofPeaks) ' File ' filename_head], 'Interpreter', 'none');
     zoom on;
     ylabel('Intensity');
     set(gca, 'FontSize', 12);

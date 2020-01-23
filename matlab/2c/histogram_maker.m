@@ -1,17 +1,18 @@
+% plot intensity and fret histograms from .traces 
 % by X. A. Feng
 % Feb 23, 2019
 
+% USER INPUT
 FRAME_RATE = 0.1; % s/frame
 LEAKAGE = 0.12;
 GAMMA = 1;
-RANGE = [[12 16]; [2, 6]]; % Put fret frames first!
-%RANGE = [[2 6]; [12, 16]];
-DON_ACC_SUM_RANGE = [-100,1000];
-DON_ACC_SUM_RANGE = [200,600];
-ACC_RANGE = [-100, 1000];
-ACC_RANGE = [200, 800];
-FRET_RANGE = [-0.2, 1.2];
-%FRET_RANGE = [0.25, 1.2];
+RANGE = [[2 6]; [12, 16]]; % Put fret frames first!
+
+% filters
+DON_ACC_SUM_RANGE = [-1000,5000]; % filter for donor + acceptor intensity
+ACC_RANGE = [-1000, 5000]; % filter for acceptor intensity
+FRET_RANGE = [-1.2, 1.2]; % filter for FRET efficiency
+% End of user input
 
 directory = input('Directory: ','s');
 

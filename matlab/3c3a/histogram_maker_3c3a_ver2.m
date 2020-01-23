@@ -28,7 +28,7 @@ gamma12=0.8730;  %1
 gamma23 = 2.62; 
 gamma13=gamma12*gamma23;
 
-direct = 0.13; %ashlee: 0.1578;   %0.19
+direct = 0.117; %ashlee: 0.1578;   %0.19
 
 
 %read data
@@ -321,7 +321,7 @@ title('Cy3 Cy5 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
 set(gca,'FontSize',20);
-%saveas(f1, 'Cy3 Cy5 FRET ver2.png')
+saveas(f1, 'Cy3 Cy5 FRET ver2.png')
 
 % Cy5-Cy7 FRET histogram
 
@@ -332,7 +332,7 @@ title('Cy5 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
 set(gca,'FontSize',20);
-%saveas(f2, 'Cy5 Cy7 FRET ver2.png')
+saveas(f2, 'Cy5 Cy7 FRET ver2.png')
 
 % Cy5-Cy7 FRET histogram for spots with Cy3 intensity
 
@@ -353,7 +353,7 @@ title('Cy3 Cy7 FRET');
 xlabel('FRET Efficiency');
 ylabel('Count');
 set(gca,'FontSize',20);
-%saveas(f3, 'Cy3 Cy7 FRET ver2.png')
+saveas(f3, 'Cy3 Cy7 FRET ver2.png')
 
 to_save01 = fret01(molec_with_cy3 & molec_with_cy5);
 to_save12 = fret12(molec_with_cy5 & molec_with_cy7);
