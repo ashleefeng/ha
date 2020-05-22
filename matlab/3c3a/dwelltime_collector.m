@@ -1,7 +1,5 @@
-function [fret1id, fret1start, fret1end, fret1val, fret2id, fret2start, fret2end, fret2val, dt3id, dt3start, dt3end, dt3, fret301, fret302] = dwelltime_collector(trc, id, time, button, fret1id, fret1start, fret1end, fret1val, fret2id, fret2start, fret2end, fret2val, dt3id, dt3start, dt3end, dt3, fret301, fret302)
+function [fret1id, fret1start, fret1end, fret1val, fret2id, fret2start, fret2end, fret2val, dt3id, dt3start, dt3end, dt3, fret301, fret302] = dwelltime_collector(trc, id, time, timeunit, button, fret1id, fret1start, fret1end, fret1val, fret2id, fret2start, fret2end, fret2val, dt3id, dt3start, dt3end, dt3, fret301, fret302)
     
-    timeunit = 0.2;
-
     time1 = time(button == 1);
     
     for c = 1:2:(sum(button == 1) - 1)

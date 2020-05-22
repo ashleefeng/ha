@@ -5,8 +5,9 @@ close all;
 
 %% path and filename setting
 WorkingDirectory = pwd;
-filename_head = 'hel2';
-folder_prefix = '200121-1';
+filename_head = 'hel1';
+folder_prefix = '190928-2';
+
 
 %% Correction parameters for FRET%%
 dbackground_b=0;
@@ -29,7 +30,8 @@ gamma12=0.8730;  %1
 gamma23 = 2.62;
 gamma13=gamma12*gamma23;
 
-direct = 0.117; %ashlee: 0.1578;
+direct = 0.1386; %newer: 0.117; %ashlee: nuc only 0.1578;
+direct = 0.12;
 
 %% Options
 LaserOrderChange = 'y'; %Check this part when excitation laser order is matched.
@@ -44,7 +46,7 @@ FirstNumber = 10;       % histogram options
 LastNumber = 10;        % histogram options
 
 %% Trace axis range
-BottomLimit_b=-600;
+BottomLimit_b=-200;
 UpperLimit_b=1000;
 BottomLimit_g=-300;
 UpperLimit_g=1000;

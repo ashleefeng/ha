@@ -1,6 +1,12 @@
 % view 3 color traces exported as .dat files
 % X. Feng Nov 6, 2019 xfeng17@jhu.edu
 
+timeunit = 0.2;
+start_frame = floor(500*90/300 + 1);
+%start_frame = 1;
+N_frames = floor(500*15/300);
+%N_frames = 500;
+
 listing = dir(pwd);
 fig = figure;
 files = {listing.name};
@@ -19,7 +25,7 @@ dt3end = [];
 dt3 = [];
 fret301 = [];
 fret302 = [];
-file_prefix = '../analysis/';
+file_prefix = '';
 
 while i <= length(files)
     fname = files{i};
@@ -31,7 +37,9 @@ while i <= length(files)
    	if strcmp(ext, '.dat')
         fprintf('Trace %d / %d %s\n', i - 2, length(files) - 2, fname);
         trc_data = three_color_trace_dat_reader(fname);
-        three_color_trace_plotter(trc_data, name, 1, 500);
+        
+        three_color_trace_plotter_pc(trc_data, name, start_frame, start_frame + N_frames - 1);
+        
         keyanswer = input('Enter=next trace, b=go back, f=collect avg fret, g=go to, s=save as png t=terminate: ', 's');
         if strcmp(keyanswer, 'b')
             i = i - 2;
@@ -40,14 +48,14 @@ while i <= length(files)
             [fret1id, fret1start, fret1end, fret1val, ...
                 fret2id, fret2start, fret2end, fret2val, ...
                 dt3id, dt3start, dt3end, dt3, fret301, fret302] = ...
-                dwelltime_collector(trc_data, i-2, time, button, ...
+                dwelltime_collector(trc_data, i-2, time, timeunit, button, ...
                 fret1id, fret1start, fret1end, fret1val, ...
                 fret2id, fret2start, fret2end, fret2val, ...
                 dt3id, dt3start, dt3end, dt3, fret301, fret302);
         elseif strcmp(keyanswer, 'g')
             i = input('Trace to go to: ') + 1;
         elseif strcmp(keyanswer, 's')
-            saveas(fig, ['../plots/' name '.png']);
+            saveas(fig, [file_prefix name '.epsc']);
         elseif strcmp(keyanswer, 't')
             break
         end
@@ -56,20 +64,20 @@ while i <= length(files)
     i = i + 1;
 end
 
-if ~isempty(fret1val)
-    fret1 = [fret1id; fret1start; fret1end; fret1val]';
-    fname = [file_prefix 'dt1_productive_unwrapping_redo.dat'];
-    save(fname,'fret1','-ascii','-append');
-end
-
-% if ~isempty(fret2val)
-%     fret2 = [fret2id; fret2start; fret2end; fret2val]';
-%     fname = [file_prefix '_time2second_exchange.dat'];
-%     save(fname,'fret2','-ascii','-append');
+% if ~isempty(fret1val)
+%     fret1 = [fret1id; fret1start; fret1end]';
+%     fname = [file_prefix 'high_cy3_50nM_Nap1.dat'];
+%     save(fname,'fret1','-ascii','-append');
 % end
 
-if ~isempty(dt3)
-    dt3save = [dt3id; dt3start; dt3end; dt3; fret301; fret302]';
-    fname = [file_prefix 'time2second_exchange.dat'];
-    save(fname,'dt3save','-ascii','-append');
+if ~isempty(fret2val)
+    fret2 = [fret2id; fret2start; fret2end]';
+    fname = [file_prefix 'dual_eviction_400ms.dat'];
+    save(fname,'fret2','-ascii','-append');
 end
+
+% if ~isempty(dt3)
+%     dt3save = [dt3id; dt3start; dt3end; dt3; fret301; fret302]';
+%     fname = [file_prefix 'time2second_exchange.dat'];
+%     save(fname,'dt3save','-ascii','-append');
+% end
