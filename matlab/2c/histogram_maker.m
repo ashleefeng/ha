@@ -6,11 +6,11 @@
 FRAME_RATE = 0.1; % s/frame
 LEAKAGE = 0.12;
 GAMMA = 1;
-RANGE = [[2 6]; [12, 16]]; % Put fret frames first!
+RANGE = [[12 16]; [2, 6]]; % Put fret frames first!
 
 % filters
-DON_ACC_SUM_RANGE = [-1000,5000]; % filter for donor + acceptor intensity
-ACC_RANGE = [-1000, 5000]; % filter for acceptor intensity
+DON_ACC_SUM_RANGE = [0,2000]; % filter for donor + acceptor intensity
+ACC_RANGE = [300, 1500]; % filter for acceptor intensity
 FRET_RANGE = [-1.2, 1.2]; % filter for FRET efficiency
 % End of user input
 

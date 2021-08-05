@@ -1,13 +1,13 @@
 % Written by Digvijay Singh  ( dgvjay@illinois.edu)
 % Edited by Olivia Yang (oyang1@jhu.edu) and Ashlee Feng (xfeng17@jhu.edu)
-% Last updated June 11, 2020
+% Last updated July 9, 2021
 
 
 close all
 
 fclose('all');
 minInt=100;
-ymax=1000;
+ymax=700;
 Directory_of_TracesFiles=input('Directory: ','s');
 if isempty(Directory_of_TracesFiles)
     Directory_of_TracesFiles=pwd;
@@ -368,51 +368,12 @@ while TracesCounter < num_traces/2
         TracesCounter=choice-1;
         continue;
     end
-
-%     if choice == 8
-%         [x,y]=ginput(2);
-%         st = floor((x(1)-TimeSeries(1))/Timeunit);
-%         en = floor((x(2)-TimeSeries(1))/Timeunit);
-%         sele_FRET = FRET_Time_Series(st:en);
-%         figure;
-%         autocorr(sele_FRET);
-%         TracesCounter = TracesCounter - 1;
-%     end
-  
-%     if choice == 8
-%         [Xc, ~, ~] = ginput(2);
-%         start_pt = round(Xc(1)/Timeunit);
-%         end_pt = round(Xc(2)/Timeunit);
-%         disp(start_pt);
-%         disp(end_pt);
-%         TracesCounter = TracesCounter - 1;
-%         continue;
-%     end
     
     if choice == 8
         junk(TracesCounter) = 1;
     end
     
     if choice == 9
-        
-        smoothed_fret_y = zeros(floor(Length_of_the_TimeTraces/3));
-        
-        for i = 1: floor(Length_of_the_TimeTraces/3)
-            smoothed_fret_y(i) = mean(FRET_Time_Series(i*3-2:i*3));
-        end
-        
-        ax2=subplot(2, 4,[5 6 7]);
-        plot(TimeSeries,FRET_Time_Series,'LineWidth',1.2,'Color',[153/255, 153/255, 153/255]);
-        hold on
-        plot(smoothed_fret_x,smoothed_fret_y,'LineWidth',1.5,'Color','b');
-        hold off
-        
-        xlabel('Time(s)');
-        ylabel('FRET Efficiency');
-        xlim([0 Length_of_the_TimeTraces * Timeunit]);
-        ylim([-0.2 1.2]);
-        
-        done_smooth = input('Enter to move on to next trace\n');
       
     end
     

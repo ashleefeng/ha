@@ -1,15 +1,16 @@
 % view 3 color traces exported as .dat files
 % X. Feng Nov 6, 2019 xfeng17@jhu.edu
 
-timeunit = 0.2;
-start_frame = floor(500*90/300 + 1);
+timeunit = 0.2;         
+
+start_frame = floor(500*0/300 + 1);
 %start_frame = 1;
-N_frames = floor(500*15/300);
+N_frames = floor(500*300/300);
 %N_frames = 500;
 
 listing = dir(pwd);
 fig = figure;
-files = {listing.name};
+files = {listing.name}; 
 i = 3;
 fret1start = [];
 fret1end = [];
@@ -25,10 +26,12 @@ dt3end = [];
 dt3 = [];
 fret301 = [];
 fret302 = [];
-file_prefix = '';
+marked_traces = [];
+file_prefix = './';
 
 while i <= length(files)
     fname = files{i};
+    disp(fname);
     if strcmp(fname,'.') || strcmp(fname,'..')
         continue
     end
@@ -40,7 +43,7 @@ while i <= length(files)
         
         three_color_trace_plotter_pc(trc_data, name, start_frame, start_frame + N_frames - 1);
         
-        keyanswer = input('Enter=next trace, b=go back, f=collect avg fret, g=go to, s=save as png t=terminate: ', 's');
+        keyanswer = input('Enter=next trace, b=go back, f=collect avg fret, g=go to, s=save as .epsc t=terminate: ', 's');
         if strcmp(keyanswer, 'b')
             i = i - 2;
         elseif strcmp(keyanswer, 'f')
@@ -52,10 +55,16 @@ while i <= length(files)
                 fret1id, fret1start, fret1end, fret1val, ...
                 fret2id, fret2start, fret2end, fret2val, ...
                 dt3id, dt3start, dt3end, dt3, fret301, fret302);
+        elseif strcmp(keyanswer, 'h')
+            [time,~,button]=ginput;
+            fret_values = fret_values_extractor(trc_data, time, timeunit, button);
+            disp(fret_values);
         elseif strcmp(keyanswer, 'g')
             i = input('Trace to go to: ') + 1;
         elseif strcmp(keyanswer, 's')
             saveas(fig, [file_prefix name '.epsc']);
+        elseif strcmp(keyanswer, 'c')
+            marked_traces = [marked_traces i-2];            
         elseif strcmp(keyanswer, 't')
             break
         end
@@ -64,11 +73,11 @@ while i <= length(files)
     i = i + 1;
 end
 
-% if ~isempty(fret1val)
-%     fret1 = [fret1id; fret1start; fret1end]';
-%     fname = [file_prefix 'high_cy3_50nM_Nap1.dat'];
-%     save(fname,'fret1','-ascii','-append');
-% end
+if ~isempty(fret1val)
+    fret1 = [fret1id; fret1start; fret1end]';
+    fname = [file_prefix 'cy3_fret_after_eviction_dt.dat'];
+    save(fname,'fret1','-ascii','-append');
+end
 
 if ~isempty(fret2val)
     fret2 = [fret2id; fret2start; fret2end]';
@@ -76,8 +85,8 @@ if ~isempty(fret2val)
     save(fname,'fret2','-ascii','-append');
 end
 
-% if ~isempty(dt3)
-%     dt3save = [dt3id; dt3start; dt3end; dt3; fret301; fret302]';
-%     fname = [file_prefix 'time2second_exchange.dat'];
-%     save(fname,'dt3save','-ascii','-append');
-% end
+if ~isempty(dt3)
+    dt3save = [dt3id; dt3start; dt3end; dt3; fret301; fret302]';
+    fname = [file_prefix 'time2second_exchange.dat'];
+    save(fname,'dt3save','-ascii','-append');
+end

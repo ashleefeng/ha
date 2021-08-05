@@ -1,10 +1,10 @@
 function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     
     ex0_ylim = [-100, 500];
-    ex1_ylim = [-100, 500];
-    ex2_ylim = [-50, 200];
-    fret01_end = floor(500*105/300);
-    fret02_end = floor(500*105/300);
+    ex1_ylim = [-100, 700];
+    ex2_ylim = [-50, 300];
+    fret01_end = floor(500*300/300);
+    fret02_end = floor(500*300/300);
     %fret01_end = lastpoint;
     %fret02_end = lastpoint;
     fret12_end = lastpoint;
@@ -12,9 +12,9 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     %% green laser excitation corrected trace
     
     subplot('position',[0.1 0.84 0.8 0.14]);
-    %set(gcf,'Position',[400 400 400 500]); % standard traces window
+    set(gcf,'Position',[400 400 400 500]); % standard traces window
     %set(gcf, 'Position', [400 400, 1000 500]); % expanded
-    set(gcf, 'Position', [400 400 200 500]); % shrinked
+    %set(gcf, 'Position', [400 400 200 500]); % shrinked
     
     plot(trc.time(firstpoint:lastpoint), trc.ex0em0(firstpoint:lastpoint), 'g', trc.time(firstpoint:lastpoint), trc.ex0em1(firstpoint:lastpoint), 'r', 'LineWidth', 1);
     hold on
@@ -28,8 +28,8 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     
     set(gca, 'FontSize', 8);    
     ylim(ex0_ylim);
-    xlim([90 105]);
-    %yticks([0 300 600]);
+    %xlim([130 230]);
+%     xticks([0 20 40 60 80 100]);
     set(gca,'XTickLabel',[]);
     
     %% red laser excitation corrected trace
@@ -47,9 +47,10 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     
     set(gca, 'FontSize', 8);
     ylim(ex1_ylim);
-    xlim([90 105]);
+   % xlim([130 230]);
+%     xticks([0 20 40 60 80 100]);
     set(gca,'XTickLabel',[]);
-    %yticks([0 300 600]);
+    %yticks([0 400 800]);
     %set(gca,'YTickLabel',['', 0, 200, 400, 600]);
     
     %% 750 laser excitation corrected trace
@@ -64,8 +65,8 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     
     set(gca, 'FontSize', 8);
     ylim(ex2_ylim);
-    xlim([90 105]);
-    %xlabel('Time (s)');
+    %xlim([130 230]);
+%     xticks([0 20 40 60 80 100]);
     set(gca,'XTickLabel',[]);
 
 %% cy3-cy5 fret trace
@@ -74,9 +75,8 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     plot(trc.time(firstpoint:fret01_end), trc.fret01(firstpoint:fret01_end), 'LineWidth', 1);
     ylim([-0.1 1.1]);
     
-    xlim([90 105]);
-    %title('Cy3 Cy5 FRET');
-    %ylabel('FRET');
+%     xlim([0 100]);
+%     xticks([0 20 40 60 80 100]);
     set(gca, 'FontSize', 8);
     set(gca,'XTickLabel',[]);
     
@@ -88,9 +88,8 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
     %grid on;
     zoom on;
     
-    xlim([90 105]);
-    %title('Cy3 Cy7 FRET');
-    %ylabel('FRET');
+%     xlim([0 100]);
+%     xticks([0 20 40 60 80 100]);
     set(gca, 'FontSize', 8);
     set(gca,'XTickLabel',[]);
 
@@ -98,17 +97,18 @@ function three_color_trace_plotter_pc(trc, trc_name, firstpoint, lastpoint)
 
     subplot('position', [0.1 0.04 0.8 0.14]);
     plot(trc.time(firstpoint:fret12_end), trc.fret12(firstpoint:fret12_end), 'LineWidth', 1);
-    hold on
-    plot(trc.time(firstpoint:fret02_end), trc.fret02(firstpoint:fret02_end), 'LineWidth', 1);
-    hold off
+    %hold on
+    %plot(trc.time(firstpoint:fret02_end), trc.fret02(firstpoint:fret02_end), 'LineWidth', 1);
+    %hold off
     ylim([-0.1 1.1]);
     %grid on;
     zoom on;
     
-    xlim([90 105]);
     %title('Cy5 Cy7 FRET');
     %ylabel('FRET');
     xlabel('Time (s)');
     set(gca, 'FontSize', 8);
     %set(gca,'XTickLabel',[]);
+    %xlim([130 230]);
+%     xticks([0 20 40 60 80 100]);
 end
