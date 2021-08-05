@@ -3,9 +3,9 @@ pro smb_analyze_all_3alex
 
 	; Custumizing parameters
 	windows_close = 'no'
-	path = 'E:\Ashlee\Lab-Data_local\SWR1\190705_I_nuc_test\2_I1-4_10000X\long - all\mj\'
+	path = 'E:\Ashlee\OneDrive - Johns Hopkins\Lab-Data Backup\Ashlee_shared\SWR1_raw_data\200204_iNuc9-11_ASAP6-SWR1_Nap1_flow\3_10S_20Z_1A_50nM_Nap1\reaction flow - all spots'
 	;path = 'W:\PFV_IN\3_10'
-	mapfile = 'E:\Ashlee\Lab-Data_local\SWR1\190705_I_nuc_test\3colormap\rough.map'
+	mapfile = 'E:\Ashlee\OneDrive - Johns Hopkins\Lab-Data Backup\Ashlee_shared\SWR1_raw_data\200203_iNuc9-11_ASAP5-SWR1\beads\rough.map'
 	color_number = 3		; 2 or 3 color
 	answer_need_mapping = "No"
 	answer_need_movie = "No"

@@ -6,12 +6,12 @@ close all;
 %% path and filename setting
 WorkingDirectory = pwd;
 filename_head = 'hel1';
-folder_prefix = '190928-2';
-
+folder_prefix = '200204-4';
 
 %% Correction parameters for FRET%%
 dbackground_b=0;
-d2background_b=0;abackground_b=0;
+d2background_b=0;
+abackground_b=0;
 
 dbackground_g=0;
 d2background_g=0;
@@ -30,7 +30,7 @@ gamma12=0.8730;  %1
 gamma23 = 2.62;
 gamma13=gamma12*gamma23;
 
-direct = 0.1386; %newer: 0.117; %ashlee: nuc only 0.1578;
+%direct = 0.1386; %newer: 0.117; %ashlee: nuc only 0.1578;
 direct = 0.12;
 
 %% Options
@@ -47,7 +47,7 @@ LastNumber = 10;        % histogram options
 
 %% Trace axis range
 BottomLimit_b=-200;
-UpperLimit_b=1000;
+UpperLimit_b=1200;
 BottomLimit_g=-300;
 UpperLimit_g=1000;
 BottomLimit_r=-100;
@@ -1054,7 +1054,9 @@ while i < NumberofPeaks
     if answer == 'p' % photobleaching analysis
         [x, ~] = ginput(1);
         disp(x);
-        t_list(i) = x;
+        if ~isempty(x)
+            t_list(i) = x;
+        end
     end
 
     if answer == 'd' % dwell time analysis 
@@ -1069,7 +1071,7 @@ while i < NumberofPeaks
             t2 = ceil(time1(c+1) / (3 * timeunit));
             dt1 = abs(time1(c+1) - time1(c));
             fprintf('dt1 = %.2f s\n', dt1);
-            DT1(end+1) = dt1;
+            DT1(end+1) = dt1; 
             DT1a(end+1) = mean(AcceptorCorrect_g(t1:t2));
             DT1d(end+1) = mean(Donor2Correct_g(t1:t2));
             DT1f(end+1) = mean(Fret23(t1:t2));
@@ -1175,11 +1177,11 @@ if size(dd2ac_list) ~= 0
 end
 
 %figure;
-%photob_hist = histogram(t_list);
-%xlabel('Time');
-%ylabel('Count');
-%saveas(photob_hist, [filename_head '_photobleaching_curve.png']);
-%csvwrite([filename_head '_photobleaching.csv'], t_list);
+photob_hist = histogram(t_list);
+xlabel('Time');
+ylabel('Count');
+saveas(photob_hist, [filename_head '_photobleaching_curve.png']);
+csvwrite([filename_head '_photobleaching.csv'], t_list);
 
 % save dwell time data
 
@@ -1187,7 +1189,7 @@ fprintf('Saving dwell time data if there is any...\n');
 
 if ~isempty(DT1)
     DT1=[DT1id;DT1;DT1a;DT1d;DT1f]';
-    fname1=[filename_head  '_dwelltime1_effective_unwrapping_fret.dat'];
+    fname1=[filename_head  '_cy3_photobleaching.dat'];
     save(fname1,'DT1','-ascii','-append');
 end
 if ~isempty(DT2)
