@@ -7,7 +7,7 @@ close all
 
 fclose('all');
 minInt=100;
-ymax=1000;
+ymax=700;
 Directory_of_TracesFiles=input('Directory: ','s');
 if isempty(Directory_of_TracesFiles)
     Directory_of_TracesFiles=pwd;
@@ -131,20 +131,20 @@ else
 end
 
 while TracesCounter < num_traces/2
-    TracesCounter = TracesCounter + 1 ;
+    TracesCounter = TracesCounter + 1;
     figure(hd13);
     ax1=subplot(3,3,[1 2 3]);
     
     plot(TimeSeries,(Acceptors(TracesCounter,:) - ChannelLeakage*Donors(TracesCounter,:)),'r', 'LineWidth', 1.2);
     hold on
     plot(TimeSeries,Donors(TracesCounter,:),'color', [0 0.5 0], 'LineWidth', 1.2);
-    hold off
-%     total = plot(TimeSeries,Acceptors(TracesCounter,:) + (1 - ChannelLeakage) * Donors(TracesCounter,:) + 200, 'k');
 %     hold off
+    total = plot(TimeSeries,Acceptors(TracesCounter,:) + (1 - ChannelLeakage) * Donors(TracesCounter,:) + 200, 'k');
+    hold off
     
     temp=axis;
     temp(2)=TimeSeries(end);
-    temp(3)=-100;
+    temp(3)=-200;
     temp(4)=ymax; %adjust max y-axis
     axis(temp);
     
@@ -435,7 +435,7 @@ if ~isempty(DT1)
     Dwelltime = DT1';
     FRET_Eff = DT1f';
     dwelltime1 = table(TraceID, Start, End, Dwelltime, FRET_Eff);
-    fname1=[Directory_of_TracesFiles '/' newfolder  '/dwelltime1_withFRET.csv'];
+    fname1=[Directory_of_TracesFiles '/' newfolder  '/dwelltime1.csv'];
     if isfile(fname1)
         fprintf('%s already exists. Need to save data manually.\n', [newfolder  '/dwelltime1_withFRET.csv']);
     else
